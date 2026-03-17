@@ -1,28 +1,25 @@
 # Tefas Mobile Android
 
-Türkiye'deki yatırım fonlarını (TF'ler) takip etmek için geliştirilmiş modern bir Android uygulaması.
+Türkiye'deki yatırım fonlarını (BES) takip etmek için geliştirilmiş modern bir Android uygulaması.
 
 ## Özellikler
 
 ### 📊 Fon Takibi
 - TEFAS üzerindeki tüm yatırım fonlarının güncel fiyatlarını görüntüleme
-- Fonların performans geçmişini grafiklerle inceleme
+- Fonların performans geçmişini inceleme
 - Favori fonlarınızı kaydetme ve takip etme
 
 ### 💼 Portföy Yönetimi
 - Kendi yatırım portföyünüzü oluşturma
 - Alım-satım işlemlerini kaydetme
-- Portföy analizi ve performans raporları
 
 ### 🔍 Gelişmiş Arama
 - Fon koduna göre arama
 - Fon adına göre arama
-- Kategori bazlı filtreleme
 
 ### 📱 Modern UI/UX
 - Material Design 3 tasarım
-- Karanlık/Aydınlık tema desteği
-- Glassmorphism efekti ile modern görünüm
+- Binance teması
 - Yumuşak geçişler ve animasyonlar
 
 ## Teknolojiler
