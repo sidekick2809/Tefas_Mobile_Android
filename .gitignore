@@ -3,6 +3,9 @@
 *.ap_
 *.aab
 
+# Exception for release APK folder
+!apk/*.apk
+
 # Files for the ART/Dalvik VM
 *.dex
 
