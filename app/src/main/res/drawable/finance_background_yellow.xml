@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="180dp"
+    android:viewportWidth="400"
+    android:viewportHeight="180">
+    
+    <!-- Arkaplan -->
+    <path
+        android:fillColor="#0D0D11"
+        android:pathData="M0,0h400v180h-400z"/>
+    
+    <!-- Radial Gradient 1 - Sol üst köşeden -->
+    <path
+        android:fillColor="#EBC03F"
+        android:fillAlpha="0.15"
+        android:pathData="M0,0 Q200,0 400,0 Q400,180 200,180 Q0,180 0,0Z"/>
+    
+    <!-- Radial Gradient 2 - Sağ alt köşeden -->
+    <path
+        android:fillColor="#EBC03F"
+        android:fillAlpha="0.25"
+        android:pathData="M400,180 Q200,180 0,180 Q0,0 200,0 Q400,0 400,180Z"/>
+    
+    <!-- Yükselen grafik çizgisi -->
+    <path
+        android:strokeColor="#EBC03F"
+        android:strokeAlpha="0.15"
+        android:strokeWidth="1.5"
+        android:pathData="M0,150 C50,140 100,165 150,150 C200,135 250,100 300,110 C350,120 400,60 400,60"/>
+    
+    <!-- Dikey çizgiler -->
+    <path
+        android:strokeColor="#EBC03F"
+        android:strokeAlpha="0.05"
+        android:strokeWidth="0.75"
+        android:pathData="M40,0 L40,180 M80,0 L80,180 M120,0 L120,180 M160,0 L160,180 M200,0 L200,180 M240,0 L240,180 M280,0 L280,180 M320,0 L320,180 M360,0 L360,180"/>
+    
+    <!-- Yatay çizgiler -->
+    <path
+        android:strokeColor="#EBC03F"
+        android:strokeAlpha="0.05"
+        android:strokeWidth="0.75"
+        android:pathData="M0,20 L400,20 M0,50 L400,50 M0,80 L400,80 M0,110 L400,110 M0,140 L400,140"/>
+    
+    <!-- Altın külçesi formu -->
+    <path
+        android:fillColor="#EBC03F"
+        android:fillAlpha="0.1"
+        android:pathData="M-50,160 L80,140 L180,170 L280,110 L350,130 L420,80 L450,180 L-50,180 Z"/>
+    
+</vector>

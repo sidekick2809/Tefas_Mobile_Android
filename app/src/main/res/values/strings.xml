@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FonTakip</string>
+    <string name="portfolio_title">Ana Portföy</string>
+    <string name="portfolio_value">Portföy Değeri</string>
+    <string name="purchase_cost">Alış Maliyeti</string>
+    <string name="profit_loss">Kar/Zarar</string>
+    <string name="profit_loss_tl">Kar/Zarar (TL)</string>
+    <string name="profit_loss_percent">Kar/Zarar (%)</string>
+    <string name="portfolio_daily">Portföy (Günlük)</string>
+    <string name="last_update">Son Güncelleme Kontrolü</string>
+    <string name="investment_amount">Yatırım Miktarı</string>
+    <string name="investment_date">Yatırım Tarihi</string>
+    <string name="investment_duration">Yatırım Süresi</string>
+    <string name="daily_change">Günlük Değişim</string>
+    <string name="gain_loss">Kazanç/Zarar</string>
+    <string name="daily_average_change">Günlük Ört. Değ.</string>
+    <string name="data_date">Veri Tarihi</string>
+    <string name="portfolio_my">Portföyüm</string>
+    <string name="analytics">Analiz</string>
+    <string name="discover">Keşfet</string>
+    <string name="favorites">Favoriler</string>
+    <string name="profile">Profil</string>
+    <string name="add_asset">Yeni Varlık Ekle</string>
+    <string name="edit_asset">Varlık Düzenle</string>
+    <string name="settings">Ayarlar</string>
+    <string name="logout">Çıkış</string>
+    <string name="save">Kaydet</string>
+    <string name="cancel">İptal</string>
+    <string name="delete">Sil</string>
+    <string name="confirm">Onayla</string>
+    <string name="error">Hata</string>
+    <string name="success">Başarılı</string>
+    <string name="loading">Yükleniyor…</string>
+    <string name="no_data">Veri bulunmuyor</string>
+    <string name="fund_code">Fon Kodu</string>
+    <string name="fund_name">Fon Adı</string>
+    <string name="units">Adet</string>
+    <string name="purchase_price">Alış Fiyatı</string>
+    <string name="current_price">Güncel Fiyat</string>
+    <string name="total_value">Toplam Değer</string>
+    <string name="day_23">23. Gün</string>
+    <string name="day_24">24. Gün</string>
+</resources>

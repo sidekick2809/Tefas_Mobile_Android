@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    
+    <!-- Loss Indicator Background -->
+    <solid android:color="#1AFF5252" />
+    
+    <!-- Rounded Corners (8dp) -->
+    <corners android:radius="8dp" />
+    
+</shape>

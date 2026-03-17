@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep Emerald & Charcoal Dark Theme -->
+    <style name="Theme.FonTakip" parent="android:Theme.Material.NoActionBar">
+        <!-- Primary Colors -->
+        <item name="android:colorPrimary">@color/emerald_light</item>
+        <item name="android:colorPrimaryDark">@color/emerald_dark</item>
+        <item name="android:colorAccent">@color/emerald_accent</item>
+        
+        <!-- Background -->
+        <item name="android:windowBackground">@drawable/gradient_background</item>
+        <item name="android:colorBackground">@color/emerald_dark</item>
+        
+        <!-- Status Bar and Navigation -->
+        <item name="android:statusBarColor">@color/emerald_dark</item>
+        <item name="android:navigationBarColor">@color/emerald_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <!-- Text Colors -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+        
+        <!-- Window Settings -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+</resources>
