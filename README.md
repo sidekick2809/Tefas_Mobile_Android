@@ -1,3 +1,5 @@
+
+
 # Tefas Mobile Android
 
 Türkiye'deki yatırım fonlarını (BES) takip etmek için geliştirilmiş modern bir Android uygulaması.
@@ -21,6 +23,16 @@ Türkiye'deki yatırım fonlarını (BES) takip etmek için geliştirilmiş mode
 - Material Design 3 tasarım
 - Binance teması
 - Yumuşak geçişler ve animasyonlar
+
+## Ekran Görüntüleri
+
+![Fon Takibi](screenshots/SCR-20260317-trmt.png)
+
+![Portföy Yönetimi](screenshots/SCR-20260317-trqu.png)
+
+![Fon Detayları](screenshots/SCR-20260317-trsq.png)
+
+![Analiz](screenshots/SCR-20260317-trum.png)
 
 ## Teknolojiler
 
