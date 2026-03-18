@@ -84,6 +84,7 @@ import java.util.Locale
 fun FundTransactionScreen(
     fund: Asset,
     portfolios: List<Portfolio>,
+    currentPortfolioId: Long? = null,
     onBackClick: () -> Unit,
     onSaveBuy: (quantity: Double, price: Double, date: Long, portfolioId: Long) -> Unit,
     onSaveSell: (quantity: Double, price: Double, date: Long, portfolioId: Long) -> Unit
@@ -101,7 +102,7 @@ fun FundTransactionScreen(
     var priceText by remember { mutableStateOf(defaultPrice.takeIf { it > 0 }?.let { String.format(Locale.US, "%.4f", it) } ?: "") }
     var showDatePicker by remember { mutableStateOf(false) }
     var purchaseDate by remember { mutableStateOf(System.currentTimeMillis()) }
-    var selectedPortfolioId by remember { mutableStateOf(portfolios.firstOrNull()?.id ?: 0L) }
+    var selectedPortfolioId by remember { mutableStateOf(currentPortfolioId ?: portfolios.firstOrNull()?.id ?: 0L) }
     var expandedPortfolio by remember { mutableStateOf(false) }
     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("tr", "TR"))
     

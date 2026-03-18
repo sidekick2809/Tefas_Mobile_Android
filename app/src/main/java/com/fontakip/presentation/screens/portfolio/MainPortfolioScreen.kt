@@ -40,6 +40,10 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import com.fontakip.presentation.viewmodel.FonVerileriViewModel
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -121,6 +125,7 @@ import androidx.compose.ui.res.painterResource
 @Composable
 fun MainPortfolioScreen(
     viewModel: PortfolioViewModel = hiltViewModel(),
+    fonViewModel: FonVerileriViewModel = hiltViewModel(),
     onNavigateToAssetDetail: (Long) -> Unit = {},
     onNavigateToAddAsset: (Long, String) -> Unit = { _, _ -> },
     onNavigateToBuySell: (Long) -> Unit = {},
@@ -128,6 +133,7 @@ fun MainPortfolioScreen(
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val fonUiState by fonViewModel.uiState.collectAsState()
     var isVisible by remember { mutableStateOf(false) }
     var showRenameDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -143,9 +149,33 @@ fun MainPortfolioScreen(
     val currentPortfolio = uiState.portfolios.getOrNull(uiState.currentPortfolioIndex)
     val portfolioName = currentPortfolio?.name ?: "Ana Portföy"
 
+    // Save selected portfolio index to SharedPreferences for PortfolioAnalyticsScreen to use
+    LaunchedEffect(uiState.currentPortfolioIndex) {
+        val sharedPrefs = activityContext.getSharedPreferences("portfolio_prefs", android.content.Context.MODE_PRIVATE)
+        sharedPrefs.edit().putInt("current_portfolio_index", uiState.currentPortfolioIndex).apply()
+    }
+
     // Swipe state for horizontal swipe detection
     var swipeOffset by remember { mutableFloatStateOf(0f) }
     val swipeThreshold = 100f
+
+    val pullRefreshState = rememberPullToRefreshState()
+    
+    if (pullRefreshState.isRefreshing) {
+        LaunchedEffect(true) {
+            fonViewModel.setFontip("ALL")
+            fonViewModel.fetchTefasData()
+        }
+    }
+    
+    // Disable pull to refresh loading once data finishes fetching
+    LaunchedEffect(fonUiState.isLoading) {
+        if (!fonUiState.isLoading && pullRefreshState.isRefreshing) {
+            viewModel.refresh()
+            delay(500) // Small delay for animations/state propagation
+            pullRefreshState.endRefresh()
+        }
+    }
 
     // Animation effect on load
     LaunchedEffect(Unit) {
@@ -289,51 +319,54 @@ fun MainPortfolioScreen(
             }
         }
     ) { paddingValues ->
-        if (uiState.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(BinanceBlack)
-                    .padding(paddingValues)
-                    .padding(horizontal = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .nestedScroll(pullRefreshState.nestedScrollConnection)
+        ) {
+            if (uiState.isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(BinanceBlack)
+                        .padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
                 // Portfolio Summary Card as first item
                 item {
-                    PortfolioSummarySection(
-                        summary = uiState.summary,
-                        modifier = Modifier.padding(vertical = 16.dp)
-                    )
-                }
-
-                // Asset List
-                items(uiState.assets) { asset ->
-                    AnimatedVisibility(
-                        visible = isVisible,
-                        enter = fadeIn(animationSpec = tween(300)) +
-                                slideInVertically(
-                                    animationSpec = tween(300),
-                                    initialOffsetY = { it }
-                                )
-                    ) {
-                        AssetCard(
-                            asset = asset,
-                            totalPortfolioValue = uiState.summary.totalValue,
-                            onInfoClick = { selectedAssetForDetail = asset },
-                            onBuyClick = { selectedFundForTransaction = asset },
-                            onCardClick = { onNavigateToFundDetail(asset) }
+                        PortfolioSummarySection(
+                            summary = uiState.summary,
+                            modifier = Modifier.padding(vertical = 16.dp)
                         )
                     }
-                }
+
+                    // Asset List
+                    items(uiState.assets) { asset ->
+                        AnimatedVisibility(
+                            visible = isVisible,
+                            enter = fadeIn(animationSpec = tween(300)) +
+                                    slideInVertically(
+                                        animationSpec = tween(300),
+                                        initialOffsetY = { it }
+                                    )
+                        ) {
+                            AssetCard(
+                                asset = asset,
+                                totalPortfolioValue = uiState.summary.totalValue,
+                                onInfoClick = { selectedAssetForDetail = asset },
+                                onBuyClick = { selectedFundForTransaction = asset },
+                                onCardClick = { onNavigateToFundDetail(asset) }
+                            )
+                        }
+                    }
 
                 // Bottom spacing
                 item {
@@ -341,8 +374,14 @@ fun MainPortfolioScreen(
                 }
             }
         }
+        
+        PullToRefreshContainer(
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
+    }
 
-        // Rename Dialog
+    // Rename Dialog
         if (showRenameDialog) {
             AlertDialog(
                 onDismissRequest = { showRenameDialog = false },
@@ -503,9 +542,11 @@ fun MainPortfolioScreen(
 
     // Fund Transaction Screen (AL/SAT) - Full Screen (Scaffold dışında)
     selectedFundForTransaction?.let { asset ->
+        val selectedPortfolio = uiState.portfolios.getOrNull(uiState.currentPortfolioIndex)
         FundTransactionScreen(
             fund = asset,
             portfolios = uiState.portfolios,
+            currentPortfolioId = selectedPortfolio?.id,
             onBackClick = { selectedFundForTransaction = null },
             onSaveBuy = { quantity, price, date, portfolioId ->
                 viewModel.buyFund(asset, quantity, price, date, portfolioId)

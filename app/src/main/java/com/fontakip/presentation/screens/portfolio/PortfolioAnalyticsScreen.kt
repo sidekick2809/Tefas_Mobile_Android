@@ -83,10 +83,29 @@ fun PortfolioAnalyticsScreen(
     var isVisible by remember { mutableStateOf(false) }
     var showPortfolioDropdown by remember { mutableStateOf(false) }
     
-    // İlk yüklemede ViewModel'e initialPortfolioIndex'i aktar
-    LaunchedEffect(initialPortfolioIndex) {
-        if (uiState.portfolios.isNotEmpty() && initialPortfolioIndex >= 0 && initialPortfolioIndex < uiState.portfolios.size) {
-            viewModel.selectPortfolio(initialPortfolioIndex)
+    val activityContext = androidx.compose.ui.platform.LocalContext.current
+    val savedPortfolioIndex = remember {
+        activityContext.getSharedPreferences("portfolio_prefs", android.content.Context.MODE_PRIVATE)
+            .getInt("current_portfolio_index", 0)
+    }
+    val actualInitialIndex = if (initialPortfolioIndex > 0) initialPortfolioIndex else savedPortfolioIndex
+    var hasSetInitialPortfolio by remember { mutableStateOf(false) }
+
+    // İlk yüklemede ViewModel'e kayıtlı veya aktarılan portföy indeksini aktar ve sadece bir kere yap
+    LaunchedEffect(uiState.portfolios) {
+        if (!hasSetInitialPortfolio && uiState.portfolios.isNotEmpty()) {
+            val validIndex = if (actualInitialIndex >= 0 && actualInitialIndex < uiState.portfolios.size) actualInitialIndex else 0
+            // ViewModel aslen default seciyor init kisminda ama biz override ediyoruz
+            viewModel.selectPortfolio(validIndex)
+            hasSetInitialPortfolio = true
+        }
+    }
+    
+    // Kullanıcı grafik sayfasında portföy değiştirirse prefs güncellensin
+    LaunchedEffect(uiState.currentPortfolioIndex) {
+        if (hasSetInitialPortfolio) {
+            val sharedPrefs = activityContext.getSharedPreferences("portfolio_prefs", android.content.Context.MODE_PRIVATE)
+            sharedPrefs.edit().putInt("current_portfolio_index", uiState.currentPortfolioIndex).apply()
         }
     }
     

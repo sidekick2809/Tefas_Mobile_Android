@@ -62,6 +62,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -275,107 +285,128 @@ fun BottomNavigationBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    // Binance Style Bottom Bar - Clean and minimal
-    Surface(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(24.dp),
-                ambientColor = BinanceYellow.copy(alpha = 0.1f),
-                spotColor = BinanceYellow.copy(alpha = 0.1f)
-            ),
-        shape = RoundedCornerShape(24.dp),
-        color = BinanceNavBarBackground
+            .navigationBarsPadding() // Yazıların sistem barı veya ekran altı kısımlarında kaybolmaması için eklendi
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        contentAlignment = Alignment.BottomCenter
     ) {
-        NavigationBar(
-            modifier = Modifier.height(72.dp),
-            containerColor = Color.Transparent,
-            tonalElevation = 0.dp
+        // Alt taban çubuğu (Base Bar Background)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(72.dp)
+                .shadow(
+                    elevation = 4.dp,
+                    shape = RoundedCornerShape(24.dp),
+                    ambientColor = BinanceYellow.copy(alpha = 0.1f),
+                    spotColor = BinanceYellow.copy(alpha = 0.1f)
+                )
+                .background(BinanceNavBarBackground, RoundedCornerShape(24.dp))
+        )
+
+        // İtemlerin yer aldığı Row
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(86.dp), // Kutularla hizalamayı düzeltmek için yüksekliği ayarladık
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.Bottom
         ) {
             bottomNavItems.forEach { item ->
                 val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
 
-                // Seçili icon için animasyon değerleri
                 val scale by animateFloatAsState(
-                    targetValue = if (selected) 1.15f else 1f,
-                    animationSpec = tween(durationMillis = 200),
+                    targetValue = if (selected) 1.25f else 1f,
+                    animationSpec = tween(durationMillis = 300),
                     label = "icon_scale"
                 )
                 
-                val iconColor by animateColorAsState(
-                    targetValue = if (selected) BinanceYellow else BinanceNavBarInactive,
-                    animationSpec = tween(durationMillis = 200),
-                    label = "icon_color"
+                // Bütün elemanı yukarı çekiyoruz (gap'in açılmasını önlemek için)
+                val columnOffsetY by animateDpAsState(
+                    targetValue = if (selected) (-10).dp else 0.dp,
+                    animationSpec = tween(durationMillis = 300),
+                    label = "column_offset"
                 )
 
-                NavigationBarItem(
-                    selected = selected,
-                    onClick = {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    icon = {
-                        Box(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .then(
-                                    if (selected) {
-                                        // Binance yellow indicator ring
-                                        Modifier
-                                            .clip(CircleShape)
-                                            .background(BinanceYellow.copy(alpha = 0.15f))
-                                    } else {
-                                        Modifier
-                                    }
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
-                                contentDescription = item.label,
-                                modifier = Modifier
-                                    .scale(scale)
-                                    .size(24.dp),
-                                tint = if (selected) BinanceYellow else BinanceNavBarInactive
-                            )
-                        }
-                    },
-                    label = {
-                        // Sadece aktif label göster - slide animation ile
-                        AnimatedVisibility(
-                            visible = selected,
-                            enter = slideInVertically(
-                                initialOffsetY = { it },
-                                animationSpec = tween(200)
-                            ) + fadeIn(animationSpec = tween(200)),
-                            exit = slideOutVertically(
-                                targetOffsetY = { it },
-                                animationSpec = tween(200)
-                            ) + fadeOut(animationSpec = tween(200))
-                        ) {
-                            Text(
-                                text = item.label,
-                                fontWeight = FontWeight.SemiBold,
-                                color = BinanceYellow,
-                                style = MaterialTheme.typography.labelSmall
-                            )
-                        }
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = BinanceYellow,
-                        selectedTextColor = BinanceYellow,
-                        unselectedIconColor = BinanceProfitGreen,
-                        unselectedTextColor = BinanceProfitGreen,
-                        indicatorColor = Color.Transparent
-                    )
+                val boxSize by animateDpAsState(
+                    targetValue = if (selected) 52.dp else 42.dp,
+                    animationSpec = tween(durationMillis = 300),
+                    label = "box_size"
                 )
+
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .offset(y = columnOffsetY) // Tıklanınca hem ikon hem yazı beraber taşacak!
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) {
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom // En alta yığılım
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(boxSize)
+                            .then(
+                                if (selected) {
+                                    Modifier
+                                        // Neon sarı hale (halo) efekti
+                                        .shadow(
+                                            elevation = 16.dp,
+                                            shape = CircleShape,
+                                            spotColor = BinanceYellow,
+                                            ambientColor = BinanceYellow
+                                        )
+                                        .background(BinanceNavBarBackground, CircleShape)
+                                        .background(
+                                            Brush.radialGradient(
+                                                colors = listOf(
+                                                    BinanceYellow.copy(alpha = 0.35f),
+                                                    Color.Transparent
+                                                )
+                                            ), 
+                                            CircleShape
+                                        )
+                                } else {
+                                    Modifier
+                                }
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
+                            contentDescription = item.label,
+                            modifier = Modifier
+                                .scale(scale)
+                                .size(24.dp),
+                            tint = if (selected) BinanceYellow else BinanceNavBarInactive
+                        )
+                    }
+
+                    // İkonla yazı arasındaki devasa boşluğu kaldırdık!
+                    Spacer(modifier = Modifier.height(2.dp))
+
+                    Text(
+                        text = item.label,
+                        fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                        color = if (selected) BinanceYellow else BinanceNavBarInactive,
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                        maxLines = 1,
+                        // Yazıları yukarı kaydırdık
+                        modifier = Modifier.padding(bottom = 12.dp)
+                    )
+                }
             }
         }
     }
