@@ -1,5 +1,8 @@
 package com.fontakip.presentation.screens.fonverileri
 
+
+import com.fontakip.presentation.theme.LocalAppTheme
+import com.fontakip.presentation.theme.themeProfitGreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -72,13 +75,6 @@ import com.fontakip.presentation.screens.portfolio.FundDetailScreen
 import com.fontakip.presentation.screens.portfolio.FundTransactionScreen
 import com.fontakip.presentation.theme.Babyblue
 import com.fontakip.presentation.theme.Background
-import com.fontakip.presentation.theme.BinanceDarkSurface
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceProfitGreen
-import com.fontakip.presentation.theme.BinanceTextPrimary
-import com.fontakip.presentation.theme.BinanceTextSecondary
-import com.fontakip.presentation.theme.BinanceYellow
-import com.fontakip.presentation.theme.BinanceYellowDark
 import com.fontakip.presentation.theme.CardBackground
 import com.fontakip.presentation.theme.PrimaryBlue
 import com.fontakip.presentation.theme.PrimaryBlueLight
@@ -141,7 +137,7 @@ fun FonVerileriScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                color = BinanceDarkSurface
+                color = MaterialTheme.colorScheme.surface
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -151,7 +147,7 @@ fun FonVerileriScreen(
                     Text(
                         text = "FON VERİLERİ",
                         fontWeight = FontWeight.Bold,
-                        color = BinanceYellow,
+                        color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.align(Alignment.Center)
 
@@ -165,7 +161,7 @@ fun FonVerileriScreen(
                         Icon(
                             imageVector = Icons.Default.DateRange,
                             contentDescription = "Ayarlar",
-                            tint = BinanceYellow
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -182,7 +178,7 @@ fun FonVerileriScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .shadow(8.dp, shape = RoundedCornerShape(12.dp))
-                    .background(BinanceDarkSurface, RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(16.dp))
                     .padding(paddingValues),
                 horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -194,7 +190,7 @@ fun FonVerileriScreen(
             // Tür Selection (YAT / EMK) - boxed and compact
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Row(
                     modifier = Modifier
@@ -206,7 +202,7 @@ fun FonVerileriScreen(
                     Text(
                         text = "TÜR:",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceYellowDark,
+                        color = MaterialTheme.colorScheme.primaryContainer,
                         fontWeight = FontWeight.Medium
                     )
                     Spacer(modifier = Modifier.width(12.dp))
@@ -214,7 +210,7 @@ fun FonVerileriScreen(
                         selected = uiState.selectedFontip == "YAT",
                         onClick = { viewModel.setFontip("YAT") },
                         colors = RadioButtonDefaults.colors(
-                            selectedColor = BinanceTextPrimary
+                            selectedColor = MaterialTheme.colorScheme.onBackground
                         ),
                         modifier = Modifier.size(20.dp)
                     )
@@ -222,14 +218,14 @@ fun FonVerileriScreen(
                     Text(
                         text = "YAT",
                         style = MaterialTheme.typography.bodySmall,
-                        color = BinanceYellowDark
+                        color = MaterialTheme.colorScheme.primaryContainer
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     RadioButton(
                         selected = uiState.selectedFontip == "EMK",
                         onClick = { viewModel.setFontip("EMK") },
                         colors = RadioButtonDefaults.colors(
-                            selectedColor = BinanceTextPrimary
+                            selectedColor = MaterialTheme.colorScheme.onBackground
                         ),
                         modifier = Modifier.size(20.dp)
                     )
@@ -237,14 +233,14 @@ fun FonVerileriScreen(
                     Text(
                         text = "EMK",
                         style = MaterialTheme.typography.bodySmall,
-                        color = BinanceYellowDark
+                        color = MaterialTheme.colorScheme.primaryContainer
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     RadioButton(
                         selected = uiState.selectedFontip == "ALL",
                         onClick = { viewModel.setFontip("ALL") },
                         colors = RadioButtonDefaults.colors(
-                            selectedColor = BinanceTextPrimary
+                            selectedColor = MaterialTheme.colorScheme.onBackground
                         ),
                         modifier = Modifier.size(20.dp)
                     )
@@ -252,7 +248,7 @@ fun FonVerileriScreen(
                     Text(
                         text = "HEPSİ",
                         style = MaterialTheme.typography.bodySmall,
-                        color = BinanceYellowDark
+                        color = MaterialTheme.colorScheme.primaryContainer
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     IconButton(
@@ -262,7 +258,7 @@ fun FonVerileriScreen(
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "Sil",
-                            tint = BinanceLossRed
+                            tint = MaterialTheme.colorScheme.error
                         )
                     }
                     IconButton(
@@ -272,13 +268,13 @@ fun FonVerileriScreen(
                         if (uiState.isLoading) {
                             CircularProgressIndicator(
                                 modifier = Modifier.size(24.dp),
-                                color = BinanceYellow
+                                color = MaterialTheme.colorScheme.primary
                             )
                         } else {
                             Icon(
                                 imageVector = Icons.Default.Downloading,
                                 contentDescription = "Güncelle",
-                                tint = BinanceYellow
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
@@ -292,12 +288,12 @@ fun FonVerileriScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 4.dp),
-                placeholder = { Text("FON KODU ara...", color = BinanceTextPrimary) },
+                placeholder = { Text("FON KODU ara...", color = MaterialTheme.colorScheme.onBackground) },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = null,
-                        tint = BinanceYellow
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 },
                 trailingIcon = {
@@ -316,9 +312,9 @@ fun FonVerileriScreen(
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    focusedBorderColor = BinanceTextSecondary,
-                    unfocusedBorderColor = BinanceTextSecondary,
-                    cursorColor = BinanceTextSecondary
+                    focusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    cursorColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
 
@@ -327,7 +323,7 @@ fun FonVerileriScreen(
             // Date Info Card - compact
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = BinanceYellowDark)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
             ) {
                 Column(
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
@@ -337,7 +333,7 @@ fun FonVerileriScreen(
                         text = "Tarih Bilgileri",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
-                        color = BinanceTextPrimary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -359,7 +355,7 @@ fun FonVerileriScreen(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
                         containerColor = if (uiState.message.contains("başarı") || uiState.message.contains("alındı") || uiState.message.contains("satıldı"))
-                            BinanceProfitGreen.copy(alpha = 0.1f)
+                            MaterialTheme.colorScheme.themeProfitGreen.copy(alpha = 0.1f)
                         else
                             TextSecondary.copy(alpha = 0.1f)
                     )
@@ -368,7 +364,7 @@ fun FonVerileriScreen(
                         text = uiState.message,
                         modifier = Modifier.padding(16.dp),
                         color = if (uiState.message.contains("başarı") || uiState.message.contains("alındı") || uiState.message.contains("satıldı"))
-                            BinanceProfitGreen
+                            MaterialTheme.colorScheme.themeProfitGreen
                         else
                             TextSecondary,
                         style = MaterialTheme.typography.bodyMedium
@@ -382,7 +378,7 @@ fun FonVerileriScreen(
                 Text(
                     text = "Kaydedilen fon sayısı: ${uiState.fundCount}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BinanceTextSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
                 } // End Filter Section Column
@@ -418,8 +414,8 @@ fun FonVerileriScreen(
         PullToRefreshContainer(
             state = pullToRefreshState,
             modifier = Modifier.align(Alignment.TopCenter),
-            containerColor = BinanceDarkSurface,
-            contentColor = BinanceYellow
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.primary
         )
     }
 }
@@ -529,7 +525,8 @@ private fun DateSettingsDialog(
         title = {
             Text(
                 text = "Tarih Ayarları",
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
             )
         },
         text = {
@@ -537,7 +534,7 @@ private fun DateSettingsDialog(
                 Text(
                     text = "Tarihleri seçin veya dd.mm.yyyy formatında girin",
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 
@@ -624,7 +621,7 @@ private fun DateFieldWithPicker(
                 Icon(
                     imageVector = Icons.Default.DateRange,
                     contentDescription = "Takvim",
-                    tint = BinanceYellow
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         },
@@ -673,7 +670,7 @@ private fun FundListItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
@@ -688,12 +685,12 @@ private fun FundListItem(
                         text = fund.code,
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
-                        color = BinanceYellow
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = fund.name,
                         style = MaterialTheme.typography.bodySmall,
-                        color = BinanceYellowDark,
+                        color = MaterialTheme.colorScheme.primaryContainer,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -705,7 +702,7 @@ private fun FundListItem(
                         text = "${String.format("%.4f", fund.currentPrice)} TL",
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
-                        color = BinanceTextPrimary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     IconButton(
@@ -715,7 +712,7 @@ private fun FundListItem(
                         Icon(
                             imageVector = Icons.Default.Payments,
                             contentDescription = "AL SAT",
-                            tint = BinanceYellow,
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(20.dp)
                         )
                     }
@@ -750,12 +747,12 @@ private fun FundListItem(
                     Text(
                         text = "1G%",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = String.format("%+.2f%%", fund.dailyChangePercent),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = if (fund.dailyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        color = if (fund.dailyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         fontWeight = FontWeight.Medium
                     )
                 }
@@ -765,12 +762,12 @@ private fun FundListItem(
                     Text(
                         text = "1H%",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = String.format("%+.2f%%", fund.weeklyChangePercent),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = if (fund.weeklyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        color = if (fund.weeklyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         fontWeight = FontWeight.Medium
                     )
                 }
@@ -780,12 +777,12 @@ private fun FundListItem(
                     Text(
                         text = "1A%",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = String.format("%+.2f%%", fund.monthlyChangePercent),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = if (fund.monthlyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        color = if (fund.monthlyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         fontWeight = FontWeight.Medium
                     )
                 }
@@ -795,12 +792,12 @@ private fun FundListItem(
                     Text(
                         text = "3A%",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = String.format("%+.2f%%", fund.threeMonthChangePercent),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = if (fund.threeMonthChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        color = if (fund.threeMonthChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         fontWeight = FontWeight.Medium
                     )
                 }
@@ -810,12 +807,12 @@ private fun FundListItem(
                     Text(
                         text = "1Y%",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = String.format("%+.2f%%", fund.oneYearChangePercent),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = if (fund.oneYearChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        color = if (fund.oneYearChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         fontWeight = FontWeight.Medium
                     )
                 }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class ThemePreferences(context: Context) {
+class ThemePreferences private constructor(context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences(
         "theme_prefs",
         Context.MODE_PRIVATE
@@ -18,6 +18,14 @@ class ThemePreferences(context: Context) {
 
     companion object {
         private const val KEY_SELECTED_THEME = "selected_theme"
+        @Volatile
+        private var INSTANCE: ThemePreferences? = null
+        
+        fun getInstance(context: Context): ThemePreferences {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: ThemePreferences(context.applicationContext).also { INSTANCE = it }
+            }
+        }
     }
 
     fun saveTheme(theme: AppTheme) {

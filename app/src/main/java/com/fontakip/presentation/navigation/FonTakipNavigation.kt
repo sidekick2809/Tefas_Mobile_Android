@@ -1,14 +1,10 @@
 package com.fontakip.presentation.navigation
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
+
+import com.fontakip.presentation.theme.LocalAppTheme
+import com.fontakip.presentation.theme.getThemeColors
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
@@ -20,31 +16,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.BusinessCenter
 import androidx.compose.material.icons.filled.DonutLarge
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.PieChart
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.BarChart
 import androidx.compose.material.icons.outlined.Backup
 import androidx.compose.material.icons.outlined.BusinessCenter
 import androidx.compose.material.icons.outlined.DonutLarge
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.PieChart
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,7 +37,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -87,26 +70,6 @@ import com.fontakip.presentation.screens.portfolio.MainPortfolioScreen
 import com.fontakip.presentation.screens.portfolio.AddFundScreen
 import com.fontakip.presentation.screens.portfolio.PortfolioAnalyticsScreen
 import com.fontakip.presentation.screens.search.SearchScreen
-import com.fontakip.presentation.theme.BinanceDarkSurface
-import com.fontakip.presentation.theme.CardBackground
-import com.fontakip.presentation.theme.White
-import com.fontakip.presentation.theme.getPrimaryColor
-import com.fontakip.presentation.theme.getNavBarBackgroundColor
-import com.fontakip.presentation.theme.getNavBarIndicatorColor
-import com.fontakip.presentation.theme.getNavBarSelectedIconColor
-import com.fontakip.presentation.theme.getNavBarSelectedTextColor
-import com.fontakip.presentation.theme.getNavBarUnselectedIconColor
-import com.fontakip.presentation.theme.getNavBarUnselectedTextColor
-import com.fontakip.presentation.theme.getBackgroundGradientBrush
-import com.fontakip.presentation.theme.FintechPrimary
-import com.fontakip.presentation.theme.FintechPrimaryGradientStart
-import com.fontakip.presentation.theme.FintechPrimaryGradientEnd
-import com.fontakip.presentation.theme.BinanceYellow
-import com.fontakip.presentation.theme.BinanceNavBarBackground
-import com.fontakip.presentation.theme.BinanceNavBarActive
-import com.fontakip.presentation.theme.BinanceNavBarInactive
-import com.fontakip.presentation.theme.BinanceProfitGreen
-import kotlinx.coroutines.selects.select
 
 data class BottomNavItem(
     val route: String,
@@ -155,7 +118,7 @@ fun FonTakipNavigation() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BinanceDarkSurface)
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         Scaffold(
             bottomBar = {
@@ -300,10 +263,10 @@ fun BottomNavigationBar(navController: NavHostController) {
                 .shadow(
                     elevation = 4.dp,
                     shape = RoundedCornerShape(24.dp),
-                    ambientColor = BinanceYellow.copy(alpha = 0.1f),
-                    spotColor = BinanceYellow.copy(alpha = 0.1f)
+                    ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                    spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
                 )
-                .background(BinanceNavBarBackground, RoundedCornerShape(24.dp))
+                .background(getThemeColors(LocalAppTheme.current).navBarBackground, RoundedCornerShape(24.dp))
         )
 
         // İtemlerin yer aldığı Row
@@ -365,14 +328,14 @@ fun BottomNavigationBar(navController: NavHostController) {
                                         .shadow(
                                             elevation = 16.dp,
                                             shape = CircleShape,
-                                            spotColor = BinanceYellow,
-                                            ambientColor = BinanceYellow
+                                            spotColor = MaterialTheme.colorScheme.primary,
+                                            ambientColor = MaterialTheme.colorScheme.primary
                                         )
-                                        .background(BinanceNavBarBackground, CircleShape)
+                                        .background(getThemeColors(LocalAppTheme.current).navBarBackground, CircleShape)
                                         .background(
                                             Brush.radialGradient(
                                                 colors = listOf(
-                                                    BinanceYellow.copy(alpha = 0.35f),
+                                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.35f),
                                                     Color.Transparent
                                                 )
                                             ), 
@@ -390,7 +353,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                             modifier = Modifier
                                 .scale(scale)
                                 .size(24.dp),
-                            tint = if (selected) BinanceYellow else BinanceNavBarInactive
+                            tint = if (selected) MaterialTheme.colorScheme.primary else getThemeColors(LocalAppTheme.current).navBarUnselectedIcon
                         )
                     }
 
@@ -400,7 +363,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                     Text(
                         text = item.label,
                         fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
-                        color = if (selected) BinanceYellow else BinanceNavBarInactive,
+                        color = if (selected) MaterialTheme.colorScheme.primary else getThemeColors(LocalAppTheme.current).navBarUnselectedIcon,
                         style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
                         maxLines = 1,
                         // Yazıları yukarı kaydırdık

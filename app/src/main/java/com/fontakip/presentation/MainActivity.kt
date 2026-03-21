@@ -28,13 +28,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         
-        themePreferences = ThemePreferences(this)
+        themePreferences = ThemePreferences.getInstance(this)
         
         setContent {
             val selectedTheme by themePreferences.themeFlow.collectAsState(initial = themePreferences.getTheme())
             
-            // Tema: Binance Dark
-            val appTheme = AppTheme.BINANCE_DARK
+            // Tema: Kullanıcının seçtiği temayı kullan
+            val appTheme = selectedTheme
             
             FonTakipTheme(appTheme = appTheme) {
                 // Arka plan gradyanı veya düz renk

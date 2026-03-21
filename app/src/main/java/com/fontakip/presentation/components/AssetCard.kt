@@ -1,5 +1,8 @@
 package com.fontakip.presentation.components
 
+
+import com.fontakip.presentation.theme.LocalAppTheme
+import com.fontakip.presentation.theme.themeProfitGreen
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -41,29 +44,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.fontakip.domain.model.Asset
-import com.fontakip.domain.model.AssetPerformance
-import com.fontakip.presentation.theme.CardWhite
-import com.fontakip.presentation.theme.LossRed
-import com.fontakip.presentation.theme.LossRedLight
-import com.fontakip.presentation.theme.PrimaryBlue
-import com.fontakip.presentation.theme.ProfitGreen
-import com.fontakip.presentation.theme.getPrimaryColor
-import com.fontakip.presentation.theme.ProfitGreenLight
-import com.fontakip.presentation.theme.TextPrimary
-import com.fontakip.presentation.theme.TextSecondary
-import com.fontakip.presentation.theme.FintechProfitGreen
-import com.fontakip.presentation.theme.FintechLossRed
-import com.fontakip.presentation.theme.FintechProfitGreenLight
-import com.fontakip.presentation.theme.FintechLossRedLight
-import com.fontakip.presentation.theme.BinanceYellow
-import com.fontakip.presentation.theme.BinanceDarkSurface
-import com.fontakip.presentation.theme.BinanceProfitGreen
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceProfitGreenLight
-import com.fontakip.presentation.theme.BinanceLossRedLight
-import com.fontakip.presentation.theme.BinanceTextSecondary
-import com.fontakip.presentation.theme.BinanceGold
-import com.fontakip.presentation.theme.BinanceBorder
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -129,8 +109,8 @@ fun AssetCard(
             .shadow(
                 elevation = 4.dp,
                 shape = RoundedCornerShape(16.dp),
-                ambientColor = BinanceYellow.copy(alpha = 0.05f),
-                spotColor = BinanceYellow.copy(alpha = 0.05f)
+                ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f),
+                spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
             )
             .clickable(
                 interactionSource = interactionSource,
@@ -138,7 +118,7 @@ fun AssetCard(
             ) { onCardClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = BinanceDarkSurface
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -159,7 +139,7 @@ fun AssetCard(
                             text = asset.code,
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
-                            color = BinanceYellow
+                            color = MaterialTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
@@ -171,7 +151,7 @@ fun AssetCard(
                     Text(
                         text = asset.name,
                         style = MaterialTheme.typography.bodySmall,
-                        color = BinanceGold,
+                        color = MaterialTheme.colorScheme.secondary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -182,7 +162,7 @@ fun AssetCard(
                         modifier = Modifier
                             .scale(infoScale)
                             .clip(CircleShape)
-                            .background(BinanceDarkSurface.copy(alpha = 0.8f))
+                            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.8f))
                             .clickable(
                                 interactionSource = infoInteractionSource,
                                 indication = null
@@ -192,7 +172,7 @@ fun AssetCard(
                         Icon(
                             imageVector = Icons.Default.Info,
                             contentDescription = "Info",
-                            tint = BinanceGold,
+                            tint = MaterialTheme.colorScheme.secondary,
                             modifier = Modifier.size(18.dp)
                         )
                     }
@@ -204,7 +184,7 @@ fun AssetCard(
                         modifier = Modifier
                             .scale(editScale)
                             .clip(CircleShape)
-                            .background(BinanceYellow.copy(alpha = 0.15f))
+                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f))
                             .clickable(
                                 interactionSource = editInteractionSource,
                                 indication = null
@@ -214,7 +194,7 @@ fun AssetCard(
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = "Edit",
-                            tint = BinanceYellow,
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(18.dp)
                         )
                     }
@@ -233,7 +213,7 @@ fun AssetCard(
                     Text(
                         text = "Yatırım Miktarı",
                         style = MaterialTheme.typography.labelMedium,
-                        color = BinanceGold
+                        color = MaterialTheme.colorScheme.secondary
                     )
                     Text(
                         text = tlFormat.format(asset.totalCost),
@@ -246,7 +226,7 @@ fun AssetCard(
                     Text(
                         text = "Yatırım Tarihi",
                         style = MaterialTheme.typography.labelMedium,
-                        color = BinanceGold
+                        color = MaterialTheme.colorScheme.secondary
                     )
                     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("tr", "TR"))
                     Text(
@@ -260,7 +240,7 @@ fun AssetCard(
                     Text(
                         text = "Yatırım Süresi",
                         style = MaterialTheme.typography.labelMedium,
-                        color = BinanceGold
+                        color = MaterialTheme.colorScheme.secondary
                     )
                     Text(
                         text = "${asset.purchaseDate.let { 
@@ -315,7 +295,7 @@ fun AssetCard(
             Text(
                 text = "Veri Tarihi: ${dataDateFormat.format(Date(asset.lastUpdateDate))}",
                 style = MaterialTheme.typography.bodySmall,
-                color = BinanceTextSecondary,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.align(Alignment.End)
             )
         }
@@ -330,8 +310,8 @@ private fun MetricBoxModern(
     modifier: Modifier = Modifier
 ) {
     // Binance HIGH VIBRANCY colors with subtle background tint
-    val backgroundColor = if (isPositive) BinanceProfitGreenLight else BinanceLossRedLight
-    val textColor = if (isPositive) BinanceProfitGreen else BinanceLossRed
+    val backgroundColor = if (isPositive) MaterialTheme.colorScheme.themeProfitGreen.copy(alpha = 0.1f) else MaterialTheme.colorScheme.error.copy(alpha = 0.1f)
+    val textColor = if (isPositive) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
 
     Box(
         modifier = modifier
@@ -343,7 +323,7 @@ private fun MetricBoxModern(
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelSmall,
-                color = BinanceTextSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = value,

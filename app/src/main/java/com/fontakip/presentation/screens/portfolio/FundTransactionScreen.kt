@@ -62,10 +62,6 @@ import com.fontakip.domain.model.Asset
 import com.fontakip.domain.model.Portfolio
 import com.fontakip.presentation.components.CustomDatePickerDialog
 import com.fontakip.presentation.theme.Background
-import com.fontakip.presentation.theme.BinanceTextPrimary
-import com.fontakip.presentation.theme.BinanceYellow
-import com.fontakip.presentation.theme.BinanceYellowDark
-import com.fontakip.presentation.theme.BlueGrey300
 import com.fontakip.presentation.theme.CardWhite
 import com.fontakip.presentation.theme.LossRed
 import com.fontakip.presentation.theme.PrimaryBlue
@@ -193,18 +189,18 @@ fun FundTransactionScreen(
                         text = fund.code,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = BinanceYellow
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = fund.name,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceYellowDark
+                        color = MaterialTheme.colorScheme.primaryContainer
                     )
                     if (fund.currentPrice > 0) {
                         Text(
                             text = "Güncel Fiyat: ${String.format(Locale.US, "%.4f", fund.currentPrice)} TL",
                             style = MaterialTheme.typography.bodySmall,
-                            color = BinanceTextPrimary
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     if (fund.purchasePrice > 0 && fund.units > 0) {
@@ -241,11 +237,11 @@ fun FundTransactionScreen(
                             text = portfolios.find { it.id == selectedPortfolioId }?.name ?: "Portföy seçin",
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.Medium,
-                            color = BinanceTextPrimary
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         Text(
                             text = "▼",
-                            color = BinanceYellow
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -287,8 +283,8 @@ fun FundTransactionScreen(
             OutlinedTextField(
                 value = quantityText,
                 onValueChange = { quantityText = it },
-                label = { Text("Miktar (Adet)",color = MaterialTheme.colorScheme.onSurfaceVariant) },
-                placeholder = { Text("Örn: 10",color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                label = { Text("Miktar (Adet)",color = MaterialTheme.colorScheme.onError) },
+                placeholder = { Text("Örn: 10",color = MaterialTheme.colorScheme.onError) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -297,8 +293,8 @@ fun FundTransactionScreen(
                     unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedBorderColor = getPrimaryColor(),
                     unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
+                    focusedContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
             
@@ -306,7 +302,7 @@ fun FundTransactionScreen(
             
             // Price Input
             OutlinedTextField(
-                value = priceText,
+                value =  priceText,
                 onValueChange = { priceText = it },
                 label = { Text("Fiyat (TL)", color = MaterialTheme.colorScheme.onSurfaceVariant) },//Kutu rengi
                 placeholder = { Text("Örn: 105.50", color = MaterialTheme.colorScheme.onSurfaceVariant) },//Kutu bos ornek veri rengi
@@ -318,8 +314,8 @@ fun FundTransactionScreen(
                     unfocusedTextColor = PrimaryBlue,
                     focusedBorderColor = getPrimaryColor(), //Secili kutu çerçeve rengi
                     unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
+                    focusedContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
             
@@ -342,7 +338,7 @@ fun FundTransactionScreen(
                     unfocusedBorderColor = MaterialTheme.colorScheme.outline,
                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
                     disabledBorderColor = MaterialTheme.colorScheme.outline,
-                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    disabledContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )

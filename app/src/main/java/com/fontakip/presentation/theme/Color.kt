@@ -3,28 +3,6 @@ package com.fontakip.presentation.theme
 import androidx.compose.ui.graphics.Color
 
 // ============================================
-// MODERN 2026 FINTECH COLOR PALETTE (USED)
-// ============================================
-
-// Primary Accent - Modern Purple
-val FintechPrimary = Color(0xFF8B5CF6)
-
-// Primary Gradient Colors
-val FintechPrimaryGradientStart = Color(0xFF6366F1)
-val FintechPrimaryGradientEnd = Color(0xFFA855F7)
-
-// Status Colors - High Vibrancy
-val FintechProfitGreen = Color(0xFF10B981)
-val FintechProfitGreenLight = Color(0x1A10B981)
-val FintechLossRed = Color(0xFFEF4444)
-val FintechLossRedLight = Color(0x1AEF4444)
-
-// Glassmorphism Colors
-val FintechGlassBorder = Color(0x1AFFFFFF)
-val FintechGlassBackgroundLight = Color(0xB3FFFFFF)
-val FintechGlassBackgroundDark = Color(0xB31E293B)
-
-// ============================================
 // BINANCE THEME COLOR PALETTE - YELLOW/BLACK
 // ============================================
 
@@ -35,12 +13,10 @@ val BinanceYellowDark = Color(0xFFD49B00)
 
 // Binance Dark Background Colors - Updated for user specs
 val BinanceBlack = Color(0xFF000000)           // Main background
-val BinanceDarkBg = Color(0xFF000000)           // Main background (alias)
 val BinanceDarkBg2 = Color(0xFF1E1E1E)         // Secondary surfaces
 val BinanceDarkSurface = Color(0xFF121212)     // Card backgrounds
 val BinanceDarkSurface2 = Color(0xFF1E1E1E)   // Secondary surfaces
 val BinanceDarkSurface3 = Color(0xFF2B2B2B)    // Tertiary surfaces
-val BinanceSurfaceDark = Color(0xFF121212)     // Card backgrounds (alias)
 val BinanceSurfaceLight = Color(0xFF363A45)
 
 // Binance Light Background Colors
@@ -58,7 +34,6 @@ val BinanceTextSecondaryLight = Color(0xFF5E6673)
 // Gold Accents - Softer highlights
 val BinanceGold = Color(0xFFFFE082)            // Gold
 val BinanceGoldLight = Color(0xFFFFECB3)      // Light gold
-val BinanceGoldAlpha = Color(0x40FFE082)        // 25% opacity gold
 
 // Binance Border Colors
 val BinanceBorder = Color(0xFF2B2B2B)         // Dark border
@@ -71,7 +46,6 @@ val BinanceLossRed = Color(0xFFFF4D4D)        // Coral red - loss
 val BinanceLossRedLight = Color(0x1AFF4D4D)   // Subtle red background
 
 // Binance Navigation Bar
-val BinanceNavBarDark = Color(0xFF14151C)
 val BinanceNavBarBackground = Color(0xFF000000) // Dark nav background
 val BinanceNavBarActive = Color(0xFFF0B90B)   // Active icon color
 val BinanceNavBarInactive = Color(0xFF707070)  // Inactive icon color
@@ -81,17 +55,9 @@ val BinanceNavBarLight = Color(0xFFFFFFFF)
 val BinanceCardBackground = Color(0xFF121212) // Card background
 val BinanceCardBorder = Color(0xFF2B2B2B)     // Card border
 
-// Glass Effect for Binance
-val BinanceGlassBackground = Color(0x80121212) // 50% opacity dark
-val BinanceGlassBorder = Color(0x40FFFFFF)     // White border 25% opacity
-
 // ============================================
 // USED LEGACY COLORS (Backward Compatibility)
 // ============================================
-
-// Deep Emerald & Charcoal Dark Theme Colors
-val EmeraldDark = Color(0xFF061612)
-val EmeraldAccent = Color(0xFF2d8a6e)
 
 // Text Colors - Off-White for readability
 val TextPrimary = Color(0xFF000000)
@@ -119,13 +85,5 @@ val Background = Color(0xFF061612)
 val PrimaryRed = Color(0xFFE53935)
 
 // Other
-val Divider = Color(0xFF1a5c4d)
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
-
-// ============================================
-// USED BLUE GREY PALETTE
-// ============================================
-
-val BlueGrey300 = Color(0xFF90A4AE)
-val BlueGrey700 = Color(0xFF455A64)

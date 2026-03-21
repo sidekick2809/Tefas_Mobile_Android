@@ -1,5 +1,7 @@
 package com.fontakip.presentation.screens.portfolio
 
+
+import com.fontakip.presentation.theme.LocalAppTheme
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.animation.core.tween
@@ -52,6 +54,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -88,7 +91,7 @@ import com.fontakip.domain.model.Asset
 import com.fontakip.domain.model.Portfolio
 import com.fontakip.domain.model.PortfolioSummary
 import com.fontakip.presentation.theme.AppTheme
-import com.fontakip.presentation.theme.getThemeColors
+import com.fontakip.presentation.theme.themeProfitGreen
 import com.fontakip.presentation.viewmodel.PortfolioViewModel
 import com.fontakip.presentation.navigation.Screen
 import com.fontakip.presentation.screens.portfolio.FundDetailScreen
@@ -100,16 +103,6 @@ import java.util.Date
 import java.util.Locale
 import com.fontakip.data.local.entities.TransactionEntity
 import com.fontakip.presentation.theme.Babyblue
-import com.fontakip.presentation.theme.BinanceBlack
-import com.fontakip.presentation.theme.BinanceBorder
-import com.fontakip.presentation.theme.BinanceDarkSurface
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceProfitGreen
-import com.fontakip.presentation.theme.BinanceTextPrimary
-import com.fontakip.presentation.theme.BinanceTextSecondary
-import com.fontakip.presentation.theme.BinanceYellow
-import com.fontakip.presentation.theme.BinanceYellowDark
-import com.fontakip.presentation.theme.EmeraldAccent
 import com.fontakip.presentation.theme.LossRed
 import com.fontakip.presentation.theme.PrimaryBlueLight
 import com.fontakip.presentation.theme.PrimaryRed
@@ -216,7 +209,7 @@ fun MainPortfolioScreen(
                             }
                         )
                     },
-                color = BinanceBlack
+                color = MaterialTheme.colorScheme.background
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize()
@@ -242,7 +235,7 @@ fun MainPortfolioScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowLeft,
                                 contentDescription = "Önceki Portföy",
-                                tint = BinanceYellow
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
 
@@ -251,7 +244,7 @@ fun MainPortfolioScreen(
                             text = portfolioName,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
-                            color = BinanceTextPrimary,
+                            color = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center
                         )
@@ -266,7 +259,7 @@ fun MainPortfolioScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowRight,
                                 contentDescription = "Sonraki Portföy",
-                                tint = BinanceYellow
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
 
@@ -283,7 +276,7 @@ fun MainPortfolioScreen(
                                 Icon(
                                     imageVector = Icons.Default.Edit,
                                     contentDescription = "Portföyü Yeniden Adlandır",
-                                    tint = BinanceYellow
+                                    tint = MaterialTheme.colorScheme.primary
                                 )
                             }
                             // Delete Icon (only for user-created portfolios)
@@ -291,7 +284,7 @@ fun MainPortfolioScreen(
                                 Icon(
                                     imageVector = Icons.Default.Delete,
                                     contentDescription = "Portföyü Sil",
-                                    tint = BinanceYellow
+                                    tint = MaterialTheme.colorScheme.primary
                                 )
                             }
                         }
@@ -303,7 +296,7 @@ fun MainPortfolioScreen(
                             Icon(
                                 imageVector = Icons.Default.Add,
                                 contentDescription = "Yeni Portföy Ekle",
-                                tint = BinanceYellow
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
                         // Settings Icon
@@ -311,7 +304,7 @@ fun MainPortfolioScreen(
                             Icon(
                                 imageVector = Icons.Default.Palette,
                                 contentDescription = "Ayarlar",
-                                tint = BinanceYellow
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
@@ -336,7 +329,7 @@ fun MainPortfolioScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(BinanceBlack)
+                        .background(MaterialTheme.colorScheme.background)
                         .padding(horizontal = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
@@ -483,8 +476,9 @@ fun MainPortfolioScreen(
         if (showThemeDialog) {
             // Mevcut kayıtlı temayı oku
             val savedTheme = remember { 
-                ThemePreferences(activityContext).getTheme() 
+                ThemePreferences.getInstance(activityContext).getTheme() 
             }
+            var selectedTheme by remember { mutableStateOf(savedTheme) }
             
             AlertDialog(
                 onDismissRequest = { showThemeDialog = false },
@@ -496,25 +490,84 @@ fun MainPortfolioScreen(
                 },
                 text = {
                     Column {
-                        // Binance Dark Tema Bilgisi
-                        val theme = AppTheme.BINANCE_DARK
-                        val themeColors = getThemeColors(theme)
-                        Text(
-                            text = "Binance Dark teması aktif",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
+                        // Binance Dark Theme Option
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { selectedTheme = AppTheme.BINANCE_DARK }
+                                .padding(vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = selectedTheme == AppTheme.BINANCE_DARK,
+                                onClick = { selectedTheme = AppTheme.BINANCE_DARK }
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    text = "Binance Dark",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = "Koyu arka plan, parlak sarı vurgular",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                        
+                        // Binance Light Theme Option
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { selectedTheme = AppTheme.BINANCE_LIGHT }
+                                .padding(vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = selectedTheme == AppTheme.BINANCE_LIGHT,
+                                onClick = { selectedTheme = AppTheme.BINANCE_LIGHT }
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    text = "Binance Light",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = "Açık arka plan, koyu metin",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
                     }
                 },
                 confirmButton = {
+                    TextButton(
+                        onClick = {
+                            // Temayı kaydet
+                            ThemePreferences.getInstance(activityContext).saveTheme(selectedTheme)
+                            showThemeDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = "Uygula",
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                },
+                dismissButton = {
                     TextButton(
                         onClick = {
                             showThemeDialog = false
                         }
                     ) {
                         Text(
-                            text = "Tamam",
-                            color = MaterialTheme.colorScheme.primary
+                            text = "İptal",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 },
@@ -575,15 +628,15 @@ private fun PortfolioSummarySection(
             .shadow(
                 elevation = 12.dp,
                 shape = RoundedCornerShape(16.dp),
-                ambientColor = BinanceYellowDark.copy(alpha = 0.5f),
-                spotColor = BinanceYellowDark.copy(alpha = 0.8f)
+                ambientColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                spotColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f)
             )
             .border(
                 width = 2.dp,
-                color = BinanceYellowDark.copy(alpha = 0.9f),
+                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f),
                 shape = RoundedCornerShape(16.dp)
             ),
-        colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             // Arkaplan Resmi - Yarı Transparan
@@ -596,7 +649,7 @@ private fun PortfolioSummarySection(
                 contentScale = ContentScale.Crop,
                 alpha = 0.2f
             )
-            
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -605,13 +658,13 @@ private fun PortfolioSummarySection(
             Text(
                 text = "Portföy Değeri",
                 style = MaterialTheme.typography.bodySmall,
-                color = BinanceYellowDark
+                color = MaterialTheme.colorScheme.primaryContainer
             )
             Text(
                 text = tlFormat.format(summary.totalValue),
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = BinanceTextPrimary
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             )
 
@@ -625,39 +678,39 @@ private fun PortfolioSummarySection(
                     Text(
                         text = "Alış Maliyeti",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceYellowDark
+                        color = MaterialTheme.colorScheme.primaryContainer
                     )
                     Text(
                         text = tlFormat.format(summary.totalCost),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium,
-                        color = BinanceTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Column {
                     Text(
                         text = "Kar/Zarar (TL)",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceYellowDark
+                        color = MaterialTheme.colorScheme.primaryContainer
                     )
                     Text(
                         text = "${if (summary.profitLossTL >= 0) "+" else ""}${tlFormat.format(summary.profitLossTL)}",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium,
-                        color = if (summary.profitLossTL >= 0) BinanceProfitGreen else BinanceLossRed
+                        color = if (summary.profitLossTL >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                     )
                 }
                 Column {
                     Text(
                         text = "Kar/Zarar (%)",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceYellowDark
+                        color = MaterialTheme.colorScheme.primaryContainer
                     )
                     Text(
                         text = "${if (summary.profitLossPercent >= 0) "+" else ""}${String.format(Locale.US, "%.3f", summary.profitLossPercent)}%",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium,
-                        color = if (summary.profitLossPercent >= 0) BinanceProfitGreen else BinanceLossRed
+                        color = if (summary.profitLossPercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                     )
                 }
             }
@@ -671,28 +724,28 @@ private fun PortfolioSummarySection(
                 Text(
                     text = "Portföy (Günlük)",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BinanceYellowDark
+                    color = MaterialTheme.colorScheme.primaryContainer
                 )
 
             Text(
                 text = "${String.format(Locale.US, "%.3f", summary.dailyChangePercent)}% / ${tlFormat.format(summary.dailyChangeTL)}",
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium,
-                color = if (summary.dailyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed
+                color = if (summary.dailyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
             )
                 }
                 Column {
                     Text(
                         text = "Portföy (Haftalık)",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BinanceYellowDark
+                        color = MaterialTheme.colorScheme.primaryContainer
                     )
 
                     Text(
                         text = "${String.format(Locale.US, "%.3f", summary.weeklyChangePercent)}% / ${tlFormat.format(summary.weeklyChangeTL)}",
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.Medium,
-                        color = if (summary.weeklyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed
+                        color = if (summary.weeklyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                     )
                 }
                 }
@@ -726,7 +779,7 @@ private fun AssetCard(
             .fillMaxWidth()
             .shadow(4.dp, RoundedCornerShape(12.dp))
             .clickable { onCardClick() },
-        colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
             modifier = Modifier
@@ -744,14 +797,14 @@ private fun AssetCard(
                             text = asset.code,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = "- ${tlFormat.format(asset.totalValue)} (%${String.format(Locale.US, "%.1f", portfolioPercentage)})",
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.Medium,
-                            color = BinanceTextPrimary
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Spacer(modifier = Modifier.height(2.dp))
@@ -759,7 +812,7 @@ private fun AssetCard(
                         text = asset.name,
                         style = MaterialTheme.typography.bodySmall,
                         fontStyle= FontStyle.Italic,
-                        color = BinanceYellowDark,
+                        color = MaterialTheme.colorScheme.primaryContainer,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -770,14 +823,14 @@ private fun AssetCard(
                         Icon(
                             imageVector = Icons.Default.Info,
                             contentDescription = "Bilgi",
-                            tint = BinanceYellow
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                     IconButton(onClick = onBuyClick) {
                         Icon(
                             imageVector = Icons.Default.Payments,
                             contentDescription = "AL SAT",
-                            tint = BinanceYellow
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -793,8 +846,8 @@ private fun AssetCard(
                 // Yatırım Miktarı (Investment Amount)
                 Card1(
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                 ) {
                     Column(
                         modifier = Modifier
@@ -805,14 +858,14 @@ private fun AssetCard(
                         Text(
                             text = "Yatırım Miktarı",
                             style = MaterialTheme.typography.bodySmall,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = tlFormat.format(asset.totalCost),
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Medium,
-                            color = BinanceTextPrimary
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -820,8 +873,8 @@ private fun AssetCard(
                 // Adet (Units) - Integer only
                 Card1(
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                 ) {
                     Column(
                         modifier = Modifier
@@ -832,14 +885,14 @@ private fun AssetCard(
                         Text(
                             text = "Adet",
                             style = MaterialTheme.typography.bodySmall,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = String.format(Locale.US, "%.0f", asset.units),
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Medium,
-                            color = BinanceTextPrimary
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -847,8 +900,8 @@ private fun AssetCard(
                 // Ortalama Alış (Average Purchase Price)
                 Card1(
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                 ) {
                     Column(
                         modifier = Modifier
@@ -859,14 +912,14 @@ private fun AssetCard(
                         Text(
                             text = "Br Maliyet",
                             style = MaterialTheme.typography.bodySmall,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = tlFormat.format(asset.purchasePrice),
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Medium,
-                            color = BinanceTextPrimary
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -882,8 +935,8 @@ private fun AssetCard(
                 // 1G Kar
                 Card1(
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                 ) {
                     Column(
                         modifier = Modifier
@@ -894,14 +947,14 @@ private fun AssetCard(
                         Text(
                             text = "1G Kar",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = percentFormat.format(asset.dailyChangePercent / 100),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (asset.dailyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed
+                            color = if (asset.dailyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                         )
                         //val dailyChangeTL = asset.units * asset.dailyChangePercent / 100 * asset.purchasePrice
                         val dailyChangeTL = (asset.units * asset.currentPrice) - (asset.units * asset.priceYesterday)
@@ -909,7 +962,7 @@ private fun AssetCard(
                             text = tlFormat.format(dailyChangeTL),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (dailyChangeTL >= 0) BinanceProfitGreen else BinanceLossRed
+                            color = if (dailyChangeTL >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                         )
                     }
                 }
@@ -917,8 +970,8 @@ private fun AssetCard(
                 // 1H Kar
                 Card1(
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                 ) {
                     Column(
                         modifier = Modifier
@@ -929,21 +982,21 @@ private fun AssetCard(
                         Text(
                             text = "1H Kar",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = percentFormat.format(asset.weeklyChangePercent / 100),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (asset.weeklyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed
+                            color = if (asset.weeklyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                         )
                         val weeklyChangeTL = (asset.units * asset.currentPrice) - (asset.units * asset.priceSevenDaysAgo)
                         Text(
                             text = tlFormat.format(weeklyChangeTL),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (weeklyChangeTL >= 0) BinanceProfitGreen else BinanceLossRed
+                            color = if (weeklyChangeTL >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                         )
                     }
                 }
@@ -951,8 +1004,8 @@ private fun AssetCard(
                 // KAR
                 Card1(
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(containerColor = BinanceDarkSurface)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                 ) {
                     Column(
                         modifier = Modifier
@@ -963,7 +1016,7 @@ private fun AssetCard(
                         Text(
                             text = "KAR",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         // Önce % olarak kar/zarar
@@ -974,7 +1027,7 @@ private fun AssetCard(
                             text = if (asset.currentPrice > 0) "${if (profitLossPercent >= 0) "+" else ""}${String.format(Locale.US, "%.2f", profitLossPercent)}%" else "VeriYok",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
-                            color = if (asset.currentPrice > 0 && profitLossPercent >= 0) BinanceProfitGreen else BinanceLossRed
+                            color = if (asset.currentPrice > 0 && profitLossPercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         // Sonra TL olarak kar/zarar
@@ -982,7 +1035,7 @@ private fun AssetCard(
                             text = if (asset.currentPrice > 0) tlFormat.format((asset.units * asset.currentPrice) - (asset.units * asset.purchasePrice)) else "VeriYok",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium,
-                            color = if (asset.currentPrice > 0 && (asset.units * asset.currentPrice) > (asset.units * asset.purchasePrice)) BinanceProfitGreen else BinanceLossRed
+                            color = if (asset.currentPrice > 0 && (asset.units * asset.currentPrice) > (asset.units * asset.purchasePrice)) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                         )
                     }
                 }

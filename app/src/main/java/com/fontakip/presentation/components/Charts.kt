@@ -1,5 +1,8 @@
 package com.fontakip.presentation.components
 
+
+import com.fontakip.presentation.theme.LocalAppTheme
+import com.fontakip.presentation.theme.themeProfitGreen
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -10,7 +13,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,19 +41,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.fontakip.presentation.theme.BinanceDarkSurface
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceProfitGreen
-import com.fontakip.presentation.theme.BinanceTextPrimary
-import com.fontakip.presentation.theme.BinanceYellowDark
-import com.fontakip.presentation.theme.EmeraldAccent
-import com.fontakip.presentation.theme.EmeraldDark
-import com.fontakip.presentation.theme.LossRed
-import com.fontakip.presentation.theme.FintechPrimaryGradientStart
-import com.fontakip.presentation.theme.FintechPrimaryGradientEnd
-import com.fontakip.presentation.theme.FintechProfitGreen
-import com.fontakip.presentation.theme.FintechLossRed
 import com.fontakip.presentation.viewmodel.AssetChartData
 import java.text.DecimalFormat
 
@@ -63,7 +52,7 @@ import java.text.DecimalFormat
 fun GradientProgressBar(
     progress: Float,
     modifier: Modifier = Modifier,
-    progressColor: Color = FintechPrimaryGradientStart,
+    progressColor: Color = Color(0x6366F1FF),
     backgroundColor: Color = Color(0xFFE2E8F0),
     height: Float = 8f,
     isAnimated: Boolean = true
@@ -83,8 +72,8 @@ fun GradientProgressBar(
     
     val gradientBrush = Brush.horizontalGradient(
         colors = listOf(
-            FintechPrimaryGradientStart,
-            FintechPrimaryGradientEnd
+            Color(0x6366F1FF),
+            Color(0x63E305F8)
         )
     )
     
@@ -120,19 +109,19 @@ fun StatusGradientProgressBar(
     modifier: Modifier = Modifier,
     height: Float = 8f
 ) {
-    val progressColor = if (isPositive) FintechProfitGreen else FintechLossRed
+    val progressColor = if (isPositive) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
     val backgroundColor = progressColor.copy(alpha = 0.2f)
     
     val gradientBrush = Brush.horizontalGradient(
         colors = if (isPositive) {
             listOf(
-                FintechProfitGreen,
-                FintechProfitGreen.copy(alpha = 0.7f)
+                MaterialTheme.colorScheme.themeProfitGreen,
+                MaterialTheme.colorScheme.themeProfitGreen.copy(alpha = 0.7f)
             )
         } else {
             listOf(
-                FintechLossRed,
-                FintechLossRed.copy(alpha = 0.7f)
+                MaterialTheme.colorScheme.error,
+                MaterialTheme.colorScheme.error.copy(alpha = 0.7f)
             )
         }
     )
@@ -184,7 +173,7 @@ fun HorizontalBarChart(
     
     // Farklı renkler
     val barColors = listOf(
-        EmeraldAccent,
+        Color(0xFFBEF102),
         Color(0xFF2196F3), // Blue
         Color(0xFFFFC107), // Amber
         Color(0xFF9C27B0), // Purple
@@ -199,7 +188,7 @@ fun HorizontalBarChart(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = BinanceDarkSurface
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -210,7 +199,7 @@ fun HorizontalBarChart(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = BinanceTextPrimary
+                color = MaterialTheme.colorScheme.onBackground
             )
             
             Spacer(modifier = Modifier.height(12.dp))
@@ -264,7 +253,7 @@ private fun VerticalBarChartItem(
     // Bar rengini değere göre belirle
     val actualBarColor = when {
         !showNegativeValues && isNegative -> Color.Gray
-        isNegative -> LossRed
+        isNegative -> MaterialTheme.colorScheme.error
         else -> barColor
     }
     
@@ -281,7 +270,7 @@ private fun VerticalBarChartItem(
         Text(
             text = code,
             style = MaterialTheme.typography.bodySmall,
-            color = BinanceYellowDark,
+            color = MaterialTheme.colorScheme.primaryContainer,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.width(60.dp)
@@ -314,7 +303,7 @@ private fun VerticalBarChartItem(
             text = "${if (value >= 0) "+" else ""}${decimalFormat.format(value)}%",
             style = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.Medium,
-            color = if (isNegative) BinanceLossRed else BinanceProfitGreen,
+            color = if (isNegative) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.themeProfitGreen,
             modifier = Modifier.width(65.dp),
             textAlign = TextAlign.End
         )
@@ -344,7 +333,7 @@ fun PieChart(
     )
     
     val colors = listOf(
-        EmeraldAccent,
+        Color(0xFFBEF102),
         Color(0xFF2196F3), // Blue
         Color(0xFFFFC107), // Amber
         Color(0xFF9C27B0), // Purple
@@ -467,7 +456,7 @@ fun SimplePieChart(
     )
     
     val colors = listOf(
-        EmeraldAccent,
+        Color(0xFFBEF102),
         Color(0xFF2196F3),
         Color(0xFFFFC107),
         Color(0xFF9C27B0),

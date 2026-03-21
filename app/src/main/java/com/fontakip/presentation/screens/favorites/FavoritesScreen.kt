@@ -1,5 +1,8 @@
 package com.fontakip.presentation.screens.favorites
 
+
+import com.fontakip.presentation.theme.LocalAppTheme
+import com.fontakip.presentation.theme.themeProfitGreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,9 +48,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fontakip.presentation.theme.Background
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceProfitGreen
-import com.fontakip.presentation.theme.BinanceYellowDark
 import com.fontakip.presentation.theme.CardBackground
 import com.fontakip.presentation.theme.LossRed
 import com.fontakip.presentation.theme.PrimaryBlue
@@ -61,7 +61,6 @@ import com.fontakip.presentation.viewmodel.FavoriteWithAsset
 import com.fontakip.presentation.viewmodel.FavoritesViewModel
 import com.fontakip.domain.model.Asset
 import com.fontakip.presentation.screens.portfolio.FundDetailScreen
-import com.fontakip.presentation.theme.BinanceTextSecondary
 import com.fontakip.presentation.viewmodel.PortfolioViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -262,12 +261,12 @@ private fun FavoriteFundItem(
                         Text(
                             text = "1G%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Text(
                             text = "${if (asset.dailyChangePercent >= 0) "+" else ""}${String.format("%.2f", asset.dailyChangePercent)}%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = if (asset.dailyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                            color = if (asset.dailyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -277,12 +276,12 @@ private fun FavoriteFundItem(
                         Text(
                             text = "1H%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Text(
                             text = "${if (asset.weeklyChangePercent >= 0) "+" else ""}${String.format("%.2f", asset.weeklyChangePercent)}%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = if (asset.weeklyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                            color = if (asset.weeklyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -292,12 +291,12 @@ private fun FavoriteFundItem(
                         Text(
                             text = "1A%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Text(
                             text = "${if (asset.monthlyChangePercent >= 0) "+" else ""}${String.format("%.2f", asset.monthlyChangePercent)}%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = if (asset.monthlyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                            color = if (asset.monthlyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -306,12 +305,12 @@ private fun FavoriteFundItem(
                         Text(
                             text = "3A%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Text(
                             text = "${if (asset.threeMonthChangePercent >= 0) "+" else ""}${String.format("%.2f", asset.threeMonthChangePercent)}%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = if (asset.threeMonthChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                            color = if (asset.threeMonthChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -320,12 +319,12 @@ private fun FavoriteFundItem(
                         Text(
                             text = "1Y%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BinanceYellowDark
+                            color = MaterialTheme.colorScheme.primaryContainer
                         )
                         Text(
                             text = "${if (asset.oneYearChangePercent >= 0) "+" else ""}${String.format("%.2f", asset.oneYearChangePercent)}%",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = if (asset.oneYearChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                            color = if (asset.oneYearChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                             fontWeight = FontWeight.Medium
                         )
                     }

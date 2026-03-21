@@ -33,11 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceTextPrimary
-import com.fontakip.presentation.theme.BinanceTextSecondary
-import com.fontakip.presentation.theme.BinanceYellow
-import com.fontakip.presentation.theme.BlueGrey700
 import com.fontakip.presentation.theme.LossRed
 import com.fontakip.presentation.theme.PrimaryBlue
 import com.fontakip.presentation.theme.TextPrimary
@@ -65,7 +60,7 @@ fun CustomDatePickerDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        containerColor = BlueGrey700,
+        containerColor = Color(0xFF455A64),
         title = {
             Text(
                 text = "Tarih Seç",
@@ -99,7 +94,7 @@ fun CustomDatePickerDialog(
                         text = monthYearFormat.format(currentMonth.time),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = BinanceYellow
+                        color = MaterialTheme.colorScheme.primary
                     )
                     
                     IconButton(onClick = {
@@ -127,7 +122,7 @@ fun CustomDatePickerDialog(
                             text = day,
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = if (day == "Cmt" || day == "Paz") FontWeight.Bold else FontWeight.Normal,
-                            color = if (day == "Cmt" || day == "Paz") BinanceLossRed else BinanceTextSecondary,
+                            color = if (day == "Cmt" || day == "Paz") MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.weight(1f)
                         )
@@ -191,7 +186,7 @@ fun CustomDatePickerDialog(
                                         style = MaterialTheme.typography.bodyMedium,
                                         fontWeight = if (isSelected || isToday) FontWeight.Bold else FontWeight.Normal,
                                         color = when {
-                                            isSelected -> BinanceTextPrimary
+                                            isSelected -> MaterialTheme.colorScheme.onBackground
                                             isWeekend -> LossRed
                                             else -> TextPrimary
                                         }
@@ -210,12 +205,12 @@ fun CustomDatePickerDialog(
                 onDateSelected(selectedDate.timeInMillis)
                 onDismiss()
             }) {
-                Text("Tamam", color = BinanceYellow, fontWeight = FontWeight.Bold)
+                Text("Tamam", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("İptal", color = BinanceLossRed)
+                Text("İptal", color = MaterialTheme.colorScheme.error)
             }
         }
     )

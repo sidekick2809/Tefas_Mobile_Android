@@ -1,5 +1,8 @@
 package com.fontakip.presentation.components
 
+
+import com.fontakip.presentation.theme.LocalAppTheme
+import com.fontakip.presentation.theme.themeProfitGreen
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -11,12 +14,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -39,19 +39,9 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.fontakip.data.remote.model.ChartDataPoint
 import com.fontakip.data.remote.model.ChartPeriod
-import com.fontakip.presentation.theme.BinanceDarkSurface
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceProfitGreen
-import com.fontakip.presentation.theme.BinanceTextPrimary
-import com.fontakip.presentation.theme.BinanceTextSecondary
-import com.fontakip.presentation.theme.BinanceYellowDark
-import com.fontakip.presentation.theme.FintechPrimaryGradientEnd
-import com.fontakip.presentation.theme.FintechPrimaryGradientStart
-import java.text.DecimalFormat
 import java.util.Locale
 
 /**
@@ -80,23 +70,23 @@ fun FundLineChart(
         label = "chart_animation"
     )
     
-    val lineColor = if (isPositive) FintechPrimaryGradientStart else BinanceLossRed
+    val lineColor = if (isPositive) Color(0xFF6366F1) else MaterialTheme.colorScheme.error
     val gradientColors = if (isPositive) {
         listOf(
-            FintechPrimaryGradientStart.copy(alpha = 0.4f),
-            FintechPrimaryGradientStart.copy(alpha = 0.0f)
+            Color(0xFF6366F1).copy(alpha = 0.4f),
+            Color(0xFF6366F1).copy(alpha = 0.0f)
         )
     } else {
         listOf(
-            BinanceLossRed.copy(alpha = 0.4f),
-            BinanceLossRed.copy(alpha = 0.0f)
+            MaterialTheme.colorScheme.error.copy(alpha = 0.4f),
+            MaterialTheme.colorScheme.error.copy(alpha = 0.0f)
         )
     }
-    
+
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = BinanceDarkSurface
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -120,7 +110,7 @@ fun FundLineChart(
                 ) {
                     Text(
                         text = "Grafik verisi bulunmuyor",
-                        color = BinanceTextSecondary,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -153,14 +143,14 @@ fun FundLineChart(
                         text = String.format(Locale.US, "%.4f TL", latestPrice),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
-                        color = if (isPositive) BinanceProfitGreen else BinanceLossRed
+                        color = if (isPositive) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                     )
                     
                     Text(
                         text = "${if (priceChange >= 0) "+" else ""}${String.format(Locale.US, "%.2f", priceChange)}%",
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Medium,
-                        color = if (priceChange >= 0) BinanceProfitGreen else BinanceLossRed
+                        color = if (priceChange >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                     )
                 }
             }
@@ -199,7 +189,7 @@ private fun PeriodChip(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .background(
-                if (isSelected) FintechPrimaryGradientStart 
+                if (isSelected) Color(0xFF6366F1)
                 else Color.Transparent
             )
             .clickable(onClick = onClick)
@@ -209,7 +199,7 @@ private fun PeriodChip(
             text = period.label,
             style = MaterialTheme.typography.bodySmall,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-            color = if (isSelected) Color.White else BinanceTextSecondary
+            color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

@@ -1,6 +1,8 @@
 package com.fontakip.presentation.components
 
-import androidx.compose.animation.animateColorAsState
+
+import com.fontakip.presentation.theme.LocalAppTheme
+import com.fontakip.presentation.theme.themeProfitGreen
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -17,13 +19,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,25 +43,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fontakip.R
 import com.fontakip.domain.model.PortfolioSummary
-import com.fontakip.presentation.theme.CardWhite
-import com.fontakip.presentation.theme.LossRed
-import com.fontakip.presentation.theme.PrimaryBlue
-import com.fontakip.presentation.theme.ProfitGreen
-import com.fontakip.presentation.theme.getPrimaryColor
-import com.fontakip.presentation.theme.TextPrimary
-import com.fontakip.presentation.theme.TextSecondary
-import com.fontakip.presentation.theme.FintechPrimaryGradientStart
-import com.fontakip.presentation.theme.FintechPrimaryGradientEnd
-import com.fontakip.presentation.theme.FintechProfitGreen
-import com.fontakip.presentation.theme.FintechLossRed
-import com.fontakip.presentation.theme.FintechGlassBackgroundLight
-import com.fontakip.presentation.theme.FintechGlassBorder
-import com.fontakip.presentation.theme.BinanceYellow
-import com.fontakip.presentation.theme.BinanceDarkSurface
-import com.fontakip.presentation.theme.BinanceProfitGreen
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceTextSecondary
-import com.fontakip.presentation.theme.BinanceGold
+import com.fontakip.presentation.theme.AppTheme
+import com.fontakip.presentation.theme.getColorScheme
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -96,8 +79,8 @@ fun PortfolioSummaryCard(
     // Binance dark gradient - subtle yellow tint
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(
-            BinanceDarkSurface,
-            BinanceDarkSurface.copy(alpha = 0.95f)
+            MaterialTheme.colorScheme.surface,
+            MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
         )
     )
 
@@ -108,13 +91,13 @@ fun PortfolioSummaryCard(
             .shadow(
                 elevation = 8.dp,
                 shape = RoundedCornerShape(24.dp),
-                ambientColor = BinanceYellow.copy(alpha = 0.1f),
-                spotColor = BinanceYellow.copy(alpha = 0.1f)
+                ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
             )
             .clip(RoundedCornerShape(24.dp))
             .background(gradientBrush)
             .background(
-                color = BinanceDarkSurface,
+                color = MaterialTheme.colorScheme.surface,
                 shape = RoundedCornerShape(24.dp)
             )
     ) {
@@ -138,7 +121,7 @@ fun PortfolioSummaryCard(
             Text(
                 text = "Portföy Değeri",
                 style = MaterialTheme.typography.bodyMedium,
-                color = BinanceYellow
+                color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(4.dp))
             
@@ -161,13 +144,13 @@ fun PortfolioSummaryCard(
                 Column(
                     modifier = Modifier
                         .clip(RoundedCornerShape(12.dp))
-                        .background(BinanceDarkSurface.copy(alpha = 0.8f))
+                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.8f))
                         .padding(12.dp)
                 ) {
                     Text(
                         text = "Alış Maliyeti",
                         style = MaterialTheme.typography.labelMedium,
-                        color = BinanceGold
+                        color = MaterialTheme.colorScheme.secondary
                     )
                     Text(
                         text = tlFormat.format(summary.totalCost),
@@ -183,21 +166,21 @@ fun PortfolioSummaryCard(
                     modifier = Modifier
                         .clip(RoundedCornerShape(12.dp))
                         .background(
-                            if (isProfitPositive) BinanceProfitGreen.copy(alpha = 0.1f)
-                            else BinanceLossRed.copy(alpha = 0.1f)
+                            if (isProfitPositive) MaterialTheme.colorScheme.themeProfitGreen.copy(alpha = 0.1f)
+                            else MaterialTheme.colorScheme.error.copy(alpha = 0.1f)
                         )
                         .padding(12.dp)
                 ) {
                     Text(
                         text = "Kar/Zarar (TL)",
                         style = MaterialTheme.typography.labelMedium,
-                        color = BinanceTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = "${if (summary.profitLossTL >= 0) "+" else ""}${tlFormat.format(summary.profitLossTL)}",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.SemiBold,
-                        color = if (isProfitPositive) BinanceProfitGreen else BinanceLossRed
+                        color = if (isProfitPositive) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                     )
                 }
                 
@@ -206,21 +189,21 @@ fun PortfolioSummaryCard(
                     modifier = Modifier
                         .clip(RoundedCornerShape(12.dp))
                         .background(
-                            if (isProfitPositive) BinanceProfitGreen.copy(alpha = 0.1f)
-                            else BinanceLossRed.copy(alpha = 0.1f)
+                            if (isProfitPositive) MaterialTheme.colorScheme.themeProfitGreen.copy(alpha = 0.1f)
+                            else MaterialTheme.colorScheme.error.copy(alpha = 0.1f)
                         )
                         .padding(12.dp)
                 ) {
                     Text(
                         text = "Kar/Zarar (%)",
                         style = MaterialTheme.typography.labelMedium,
-                        color = BinanceTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = "${if (summary.profitLossPercent >= 0) "+" else ""}${String.format(Locale.US, "%.3f", summary.profitLossPercent)}%",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.SemiBold,
-                        color = if (isProfitPositive) BinanceProfitGreen else BinanceLossRed
+                        color = if (isProfitPositive) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                     )
                 }
             }
@@ -237,7 +220,7 @@ fun PortfolioSummaryCard(
                 Text(
                     text = "Portföy (Günlük): ${String.format(Locale.US, "%.3f", summary.dailyChangePercent)}% / ${tlFormat.format(summary.dailyChangeTL)}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (isDailyPositive) BinanceProfitGreen else BinanceLossRed
+                    color = if (isDailyPositive) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                 )
                 
                 // Add button with Binance Yellow
@@ -245,7 +228,7 @@ fun PortfolioSummaryCard(
                     modifier = Modifier
                         .scale(scale)
                         .clip(CircleShape)
-                        .background(BinanceYellow)
+                        .background(MaterialTheme.colorScheme.primary)
                         .clickable(
                             interactionSource = interactionSource,
                             indication = null
@@ -268,7 +251,7 @@ fun PortfolioSummaryCard(
             Text(
                 text = "Son Güncelleme Kontrolü: ${dateFormat.format(Date(summary.lastUpdateTime))}",
                 style = MaterialTheme.typography.bodySmall,
-                color = BinanceTextSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

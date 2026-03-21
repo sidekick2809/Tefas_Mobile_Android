@@ -401,6 +401,14 @@ class PortfolioViewModel @Inject constructor(
         }
     }
 
+    override fun getTransactionsByFundCodeAndPortfolioId(fundCode: String, portfolioId: Long, onResult: (List<TransactionEntity>) -> Unit) {
+        viewModelScope.launch {
+            transactionDao.getTransactionsByPortfolioAndFund(portfolioId, fundCode).collectLatest { transactions ->
+                onResult(transactions.take(5)) // Take only last 5 transactions
+            }
+        }
+    }
+
     // Delete a transaction
     override fun deleteTransaction(transaction: TransactionEntity) {
         viewModelScope.launch {

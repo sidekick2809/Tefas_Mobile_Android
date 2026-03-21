@@ -8,5 +8,6 @@ import com.fontakip.data.local.entities.TransactionEntity
  */
 interface TransactionHandler {
     fun getTransactionsByFundCode(fundCode: String, onResult: (List<TransactionEntity>) -> Unit)
+    fun getTransactionsByFundCodeAndPortfolioId(fundCode: String, portfolioId: Long, onResult: (List<TransactionEntity>) -> Unit)
     fun deleteTransaction(transaction: TransactionEntity)
 }

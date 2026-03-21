@@ -58,14 +58,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.fontakip.presentation.components.HorizontalBarChart
 import com.fontakip.presentation.components.PieChart
-import com.fontakip.presentation.theme.BinanceBlack
-import com.fontakip.presentation.theme.BinanceDarkSurface
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceTextPrimary
-import com.fontakip.presentation.theme.BinanceYellow
-import com.fontakip.presentation.theme.BinanceYellowDark
-import com.fontakip.presentation.theme.EmeraldAccent
-import com.fontakip.presentation.theme.EmeraldDark
 import com.fontakip.presentation.theme.LossRed
 import com.fontakip.presentation.viewmodel.PortfolioAnalyticsUiState
 import com.fontakip.presentation.viewmodel.PortfolioAnalyticsViewModel
@@ -121,7 +113,7 @@ fun PortfolioAnalyticsScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BinanceBlack)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         if (uiState.isLoading) {
             Box(
@@ -279,16 +271,16 @@ private fun PortfolioSummaryCard(uiState: PortfolioAnalyticsUiState) {
             .shadow(
                 elevation = 12.dp,
                 shape = RoundedCornerShape(16.dp),
-                ambientColor = BinanceYellowDark.copy(alpha = 0.5f),
-                spotColor = BinanceYellowDark.copy(alpha = 0.8f)
+                ambientColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                spotColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f)
             )
             .border(
                 width = 2.dp,
-                color = BinanceYellowDark.copy(alpha = 0.9f),
+                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f),
                 shape = RoundedCornerShape(16.dp)
             ),
         colors = CardDefaults.cardColors(
-            containerColor = BinanceDarkSurface
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -301,7 +293,7 @@ private fun PortfolioSummaryCard(uiState: PortfolioAnalyticsUiState) {
                 text = "Portföy Özeti",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = BinanceTextPrimary
+                color = MaterialTheme.colorScheme.onBackground
             )
             
             Spacer(modifier = Modifier.height(12.dp))
@@ -330,25 +322,25 @@ private fun PortfolioSummaryCard(uiState: PortfolioAnalyticsUiState) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 // Kar/Zarar TL
-                val profitLossColor = if (uiState.summary.profitLossTL >= 0) EmeraldDark else LossRed
+                val profitLossColor = if (uiState.summary.profitLossTL >= 0) Color(0xFF061612) else LossRed
                 SummaryItem(
                     label = "Kar/Zarar",
                     value = "${if (uiState.summary.profitLossTL >= 0) "+" else ""}₺${decimalFormat.format(uiState.summary.profitLossTL)}",
-                    valueColor = BinanceLossRed
+                    valueColor = MaterialTheme.colorScheme.error
                 )
                 
                 // Kar/Zarar %
                 SummaryItem(
                     label = "Kar/Zarar %",
                     value = "${if (uiState.summary.profitLossPercent >= 0) "+" else ""}${percentFormat.format(uiState.summary.profitLossPercent)}%",
-                    valueColor = BinanceLossRed
+                    valueColor = MaterialTheme.colorScheme.error
                 )
             }
             
             Spacer(modifier = Modifier.height(8.dp))
             
             // Günlük değişim
-            val dailyChangeColor = if (uiState.summary.dailyChangePercent >= 0) EmeraldDark else LossRed
+            val dailyChangeColor = if (uiState.summary.dailyChangePercent >= 0) Color(0xFF061612) else LossRed
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -373,19 +365,19 @@ private fun PortfolioSummaryCard(uiState: PortfolioAnalyticsUiState) {
 private fun SummaryItem(
     label: String,
     value: String,
-    valueColor: Color = BinanceTextPrimary
+    valueColor: Color = MaterialTheme.colorScheme.onBackground
 ) {
     Column {
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall,
-            color = BinanceYellowDark
+            color = MaterialTheme.colorScheme.primaryContainer
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold,
-            color = BinanceTextPrimary
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
@@ -437,7 +429,7 @@ private fun PortfolioSelectorCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = BinanceDarkSurface
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -453,7 +445,7 @@ private fun PortfolioSelectorCard(
                 Icon(
                     imageVector = Icons.Default.ArrowLeft,
                     contentDescription = "Önceki Portföy",
-                    tint = BinanceYellow,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(48.dp)
                 )
             }
@@ -470,12 +462,12 @@ private fun PortfolioSelectorCard(
                         text = portfolioName,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.primaryContainer
                     )
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "Açılır menü",
-                        tint = BinanceYellow
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
                 
@@ -502,7 +494,7 @@ private fun PortfolioSelectorCard(
                 Icon(
                     imageVector = Icons.Default.ArrowRight,
                     contentDescription = "Sonraki Portföy",
-                    tint = BinanceYellow,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(48.dp)
                 )
             }

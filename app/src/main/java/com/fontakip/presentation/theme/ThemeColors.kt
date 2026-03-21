@@ -2,17 +2,9 @@ package com.fontakip.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-// ============================================
-// MATERIAL DESIGN THEMES - BLUE GREY ONLY
-// ============================================
-
-/**
- * Tema Seçenekleri Enum
- * Material Design Color Palettes: Blue Grey (Light and Dark)
- * + Modern 2026 Fintech Themes
- */
 enum class AppTheme(val displayName: String) {
-    BINANCE_DARK("Binance Dark")
+    BINANCE_DARK("Binance Dark"),
+    BINANCE_LIGHT("Binance Light")
 }
 
 // Tema Renkleri Sınıfı
@@ -68,7 +60,7 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             primary = Color(0xFFF0B90B), // BinanceYellow
             primaryContainer = Color(0xFFD4A600), // BinanceYellowDark
             onPrimary = Color(0xFF000000), // BinanceBlack
-            onPrimaryContainer = Color(0xFFFFFFFF), // BinanceTextPrimary
+            onPrimaryContainer = Color(0xFF000000), // BinanceTextPrimary
             profitGreen = Color(0xFF10C020), // BinanceProfitGreen
             lossRed = Color(0xFFFF4D4D), // BinanceLossRed
             textPrimary = Color(0xFFFFFFFF), // BinanceTextPrimary
@@ -90,6 +82,37 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             navBarSelectedText = Color(0xFFF0B90B), // BinanceYellow
             navBarUnselectedIcon = Color(0xFF707070), // BinanceNavBarInactive
             navBarUnselectedText = Color(0xFF707070) // BinanceNavBarInactive
+        )
+        // ==================== BINANCE LIGHT THEME ====================
+        AppTheme.BINANCE_LIGHT -> ThemeColors(
+            background = Color(0xFFFFFFFF), // Çok açık buz mavisi/beyaz (Arka plan)
+            cardBackground = Color(0xFFFFFFFF), // Saf beyaz kartlar
+            cardBorder = Color(0xFF1366D3), // Yumuşak gri-mavi kenarlık
+            primary = Color(0xFF0D9488), // Ana renk: Teal/Zümrüt yeşili
+            primaryContainer = Color(0xFFCCFBF1), // Açık yeşil vurgu alanı
+            onPrimary = Color(0xFFFFFFFF), 
+            onPrimaryContainer = Color(0xFF134E4A),
+            profitGreen = Color(0xFF10B981), // Finansal kar yeşili
+            lossRed = Color(0xFFEF4444), // Finansal zarar kırmızısı
+            textPrimary = Color(0xFF1E293B), // Koyu lacivert-gri metin (Okunabilirlik için)
+            textSecondary = Color(0xFF64748B), // Orta ton mavi-gri alt metin
+            divider = Color(0xFFF1F5F9), // Çok ince ayırıcı çizgi
+            white = Color(0xFFFFFFFF),
+            black = Color(0xFF000000),
+            surface = Color(0xFFFFFFFF), // Hafif gri-mavi yüzey
+            onSurface = Color(0xFF1E293B),
+            surfaceVariant = Color(0xFFF8FAFC),
+            onSurfaceVariant = Color(0xFFF8F8F8),
+            outline = Color(0xFFCBD5E1),
+            error = Color(0xFFEF4444),
+            onError = Color(0xFFFFFFFF),
+            // Navigation Bar Renkleri
+            navBarBackground = Color(0xFFFFFFFF), // Beyaz alt bar
+            navBarIndicator = Color(0xFFE2E8F0), // Seçili öğe arkasındaki hafif oval gölge
+            navBarSelectedIcon = Color(0xFF0D9488), // Seçili ikon yeşili
+            navBarSelectedText = Color(0xFF0D9488), // Seçili yazı yeşili
+            navBarUnselectedIcon = Color(0xFF93A2B7), // Pasif ikonlar
+            navBarUnselectedText = Color(0xFF94A3B8)  // Pasif yazılar
         )
     }
 }

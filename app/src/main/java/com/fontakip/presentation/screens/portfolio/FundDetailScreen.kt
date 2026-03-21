@@ -1,5 +1,8 @@
 package com.fontakip.presentation.screens.portfolio
 
+
+import com.fontakip.presentation.theme.LocalAppTheme
+import com.fontakip.presentation.theme.themeProfitGreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -60,11 +63,6 @@ import com.fontakip.presentation.theme.TextSecondary
 import com.fontakip.presentation.theme.White
 import com.fontakip.presentation.viewmodel.PortfolioViewModel
 import com.fontakip.presentation.screens.portfolio.TransactionHandler
-import com.fontakip.presentation.theme.BinanceLossRed
-import com.fontakip.presentation.theme.BinanceProfitGreen
-import com.fontakip.presentation.theme.BinanceTextPrimary
-import com.fontakip.presentation.theme.BinanceTextSecondary
-import com.fontakip.presentation.theme.BinanceYellowDark
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -181,20 +179,20 @@ fun FundDetailScreen(
                         label = "Fiyat",
                         value = "${String.format(Locale.US, "%.4f", asset.currentPrice)} TL",
                         modifier = Modifier.weight(1f),
-                        valueColor = BinanceProfitGreen
+                        valueColor = MaterialTheme.colorScheme.themeProfitGreen
                     )
                     // Daily Change
                     GridBox(
                         label = "Günlük",
                         value = "${String.format(Locale.US, "%+.3f", asset.dailyChangePercent)}%",
-                        valueColor = if (asset.dailyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        valueColor = if (asset.dailyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         modifier = Modifier.weight(1f)
                     )
                     // Weekly Change
                     GridBox(
                         label = "Haftalık",
                         value = "${String.format(Locale.US, "%+.3f", asset.weeklyChangePercent)}%",
-                        valueColor = if (asset.weeklyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        valueColor = if (asset.weeklyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -209,19 +207,19 @@ fun FundDetailScreen(
                     GridBox(
                         label = "1 Ay",
                         value = "${String.format(Locale.US, "%+.3f", asset.monthlyChangePercent)}%",
-                        valueColor = if (asset.monthlyChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        valueColor = if (asset.monthlyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         modifier = Modifier.weight(1f)
                     )
                     GridBox(
                         label = "3 Ay",
                         value = "${String.format(Locale.US, "%+.3f", asset.threeMonthChangePercent)}%",
-                        valueColor = if (asset.threeMonthChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        valueColor = if (asset.threeMonthChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         modifier = Modifier.weight(1f)
                     )
                     GridBox(
                         label = "6 Ay",
                         value = "${String.format(Locale.US, "%+.3f", asset.sixMonthChangePercent)}%",
-                        valueColor = if (asset.sixMonthChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        valueColor = if (asset.sixMonthChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -236,19 +234,19 @@ fun FundDetailScreen(
                     GridBox(
                         label = "YTD",
                         value = "${String.format(Locale.US, "%+.3f", asset.yearToDateChangePercent)}%",
-                        valueColor = if (asset.yearToDateChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        valueColor = if (asset.yearToDateChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         modifier = Modifier.weight(1f)
                     )
                     GridBox(
                         label = "1 Yıl",
                         value = "${String.format(Locale.US, "%+.3f", asset.oneYearChangePercent)}%",
-                        valueColor = if (asset.oneYearChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        valueColor = if (asset.oneYearChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         modifier = Modifier.weight(1f)
                     )
                     GridBox(
                         label = "3 Yıl",
                         value = "${String.format(Locale.US, "%+.3f", asset.threeYearChangePercent)}%",
-                        valueColor = if (asset.threeYearChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        valueColor = if (asset.threeYearChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -263,7 +261,7 @@ fun FundDetailScreen(
                     GridBox(
                         label = "5 Yıl",
                         value = "${String.format(Locale.US, "%+.3f", asset.fiveYearChangePercent)}%",
-                        valueColor = if (asset.fiveYearChangePercent >= 0) BinanceProfitGreen else BinanceLossRed,
+                        valueColor = if (asset.fiveYearChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error,
                         modifier = Modifier.weight(1f)
                     )
                     // TEFAS Status with indicator
@@ -282,7 +280,7 @@ fun FundDetailScreen(
                             Text(
                                 text = "TEFAS",
                                 style = androidx.compose.material3.MaterialTheme.typography.labelMedium,
-                                color = BinanceTextSecondary
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             // Circle with icon
@@ -308,7 +306,7 @@ fun FundDetailScreen(
                         label = "Tür",
                         value = asset.fontip.ifEmpty { "-" },
                         modifier = Modifier.weight(1f),
-                        valueColor = BinanceYellowDark
+                        valueColor = MaterialTheme.colorScheme.primaryContainer
                     )
                 }
             }
@@ -320,7 +318,7 @@ fun FundDetailScreen(
                     label = "Son Güncelleme",
                     value = dateFormat.format(Date(asset.lastUpdateDate)),
                     modifier = Modifier.fillMaxWidth(),
-                    valueColor = BinanceYellowDark
+                    valueColor = MaterialTheme.colorScheme.primaryContainer
                 )
             }
 
@@ -339,6 +337,7 @@ fun FundDetailScreen(
             item {
                 TransactionListSection(
                     fundCode = asset.code,
+                    portfolioId = asset.portfolioId,
                     viewModel = viewModel
                 )
             }
@@ -349,14 +348,15 @@ fun FundDetailScreen(
 @Composable
 private fun TransactionListSection(
     fundCode: String,
+    portfolioId: Long,
     viewModel: TransactionHandler
 ) {
     var transactions by remember { mutableStateOf<List<TransactionEntity>>(emptyList()) }
     val tlFormat = DecimalFormat("#,##0.00 TL")
     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("tr", "TR"))
 
-    LaunchedEffect(fundCode) {
-        viewModel.getTransactionsByFundCode(fundCode) { result ->
+    LaunchedEffect(fundCode, portfolioId) {
+        viewModel.getTransactionsByFundCodeAndPortfolioId(fundCode, portfolioId) { result ->
             transactions = result
         }
     }
@@ -365,12 +365,12 @@ private fun TransactionListSection(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = BinanceYellowDark)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
         ) {
             Text(
                 text = "Bu fon için işlem bulunmuyor",
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
-                color = BinanceTextPrimary,
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -467,7 +467,7 @@ private fun GridBox(
                 style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = valueColor,
-                //color = if (value.toDoubleOrNull() ?: 0.0 >= 0) BinanceProfitGreen else BinanceLossRed,
+                //color = if (value.toDoubleOrNull() ?: 0.0 >= 0) getThemeColors(LocalAppTheme.current).profitGreen else MaterialTheme.colorScheme.error,
                 textAlign = TextAlign.Center
             )
         }

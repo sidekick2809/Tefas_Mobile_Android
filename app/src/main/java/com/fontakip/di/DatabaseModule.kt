@@ -27,8 +27,8 @@ object DatabaseModule {
             FontakipDatabase::class.java,
             "fontakip_database"
         )
-            .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
             .fallbackToDestructiveMigration()
+            .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
             .build()
     }
 

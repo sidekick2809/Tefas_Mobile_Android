@@ -1,5 +1,9 @@
 package com.fontakip.presentation.components
 
+
+import androidx.compose.material3.MaterialTheme
+import com.fontakip.presentation.theme.LocalAppTheme
+import com.fontakip.presentation.theme.themeProfitGreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -11,14 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.fontakip.presentation.theme.FintechGlassBorder
-import com.fontakip.presentation.theme.FintechGlassBackgroundLight
-import com.fontakip.presentation.theme.FintechGlassBackgroundDark
-import com.fontakip.presentation.theme.FintechPrimaryGradientStart
-import com.fontakip.presentation.theme.FintechPrimaryGradientEnd
+
 
 /**
  * Modern 2026 FinTech Glassmorphism Card
@@ -42,15 +41,15 @@ fun GlassCard(
     content: @Composable BoxScope.() -> Unit
 ) {
     val backgroundColor = if (isDarkTheme) {
-        FintechGlassBackgroundDark
+        MaterialTheme.colorScheme.surfaceVariant
     } else {
-        FintechGlassBackgroundLight
+        MaterialTheme.colorScheme.background
     }
     
     val borderColor = if (isDarkTheme) {
-        Color.White.copy(alpha = 0.1f)
+        MaterialTheme.colorScheme.background.copy(alpha = 0.1f)
     } else {
-        FintechGlassBorder
+        MaterialTheme.colorScheme.surfaceVariant
     }
     
     val shape = RoundedCornerShape(cornerRadius)
@@ -60,8 +59,8 @@ fun GlassCard(
             .shadow(
                 elevation = 8.dp,
                 shape = shape,
-                ambientColor = Color.Black.copy(alpha = 0.1f),
-                spotColor = Color.Black.copy(alpha = 0.1f)
+                ambientColor = MaterialTheme.colorScheme.background.copy(alpha = 0.1f),
+                spotColor = MaterialTheme.colorScheme.background.copy(alpha = 0.1f)
             )
             .clip(shape)
             .then(
@@ -69,8 +68,8 @@ fun GlassCard(
                     Modifier.background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                FintechPrimaryGradientStart.copy(alpha = 0.1f),
-                                FintechPrimaryGradientEnd.copy(alpha = 0.05f)
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                                MaterialTheme.colorScheme.tertiary.copy(alpha = 0.05f)
                             )
                         )
                     )
@@ -97,8 +96,8 @@ fun GradientCard(
 ) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(
-            FintechPrimaryGradientStart,
-            FintechPrimaryGradientEnd
+            MaterialTheme.colorScheme.primary,
+            MaterialTheme.colorScheme.tertiary
         )
     )
     
@@ -109,8 +108,8 @@ fun GradientCard(
             .shadow(
                 elevation = 12.dp,
                 shape = shape,
-                ambientColor = FintechPrimaryGradientStart.copy(alpha = 0.3f),
-                spotColor = FintechPrimaryGradientStart.copy(alpha = 0.3f)
+                ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
             )
             .clip(shape)
             .background(gradientBrush)
@@ -131,9 +130,9 @@ fun StatusCard(
     content: @Composable BoxScope.() -> Unit
 ) {
     val tintColor = if (isPositive) {
-        com.fontakip.presentation.theme.FintechProfitGreen
+        MaterialTheme.colorScheme.themeProfitGreen
     } else {
-        com.fontakip.presentation.theme.FintechLossRed
+        MaterialTheme.colorScheme.error
     }
     
     val backgroundColor = tintColor.copy(alpha = 0.1f)
