@@ -45,7 +45,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import com.fontakip.presentation.viewmodel.FonVerileriViewModel
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -118,7 +117,6 @@ import androidx.compose.ui.res.painterResource
 @Composable
 fun MainPortfolioScreen(
     viewModel: PortfolioViewModel = hiltViewModel(),
-    fonViewModel: FonVerileriViewModel = hiltViewModel(),
     onNavigateToAssetDetail: (Long) -> Unit = {},
     onNavigateToAddAsset: (Long, String) -> Unit = { _, _ -> },
     onNavigateToBuySell: (Long) -> Unit = {},
@@ -126,7 +124,6 @@ fun MainPortfolioScreen(
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val fonUiState by fonViewModel.uiState.collectAsState()
     var isVisible by remember { mutableStateOf(false) }
     var showRenameDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -154,17 +151,15 @@ fun MainPortfolioScreen(
 
     val pullRefreshState = rememberPullToRefreshState()
     
-    if (pullRefreshState.isRefreshing) {
-        LaunchedEffect(true) {
-            fonViewModel.setFontip("ALL")
-            fonViewModel.fetchTefasData()
+    LaunchedEffect(pullRefreshState.isRefreshing) {
+        if (pullRefreshState.isRefreshing) {
+            viewModel.refresh()
         }
     }
     
     // Disable pull to refresh loading once data finishes fetching
-    LaunchedEffect(fonUiState.isLoading) {
-        if (!fonUiState.isLoading && pullRefreshState.isRefreshing) {
-            viewModel.refresh()
+    LaunchedEffect(uiState.isLoading) {
+        if (!uiState.isLoading && pullRefreshState.isRefreshing) {
             delay(500) // Small delay for animations/state propagation
             pullRefreshState.endRefresh()
         }
