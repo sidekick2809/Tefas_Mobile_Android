@@ -76,6 +76,7 @@ val LocalAppTheme = compositionLocalOf { AppTheme.BINANCE_DARK }
 fun getColorScheme(theme: AppTheme) = when (theme) {
     AppTheme.BINANCE_DARK -> BinanceDarkColorScheme
     AppTheme.BINANCE_LIGHT -> BinanceLightColorScheme
+    AppTheme.PREMIUM_DARK -> BinanceDarkColorScheme
 }
 
 /**
@@ -124,6 +125,7 @@ fun getPrimaryColor(theme: AppTheme) = getThemeColors(theme).primary
 fun isDarkTheme(theme: AppTheme) = when (theme) {
     AppTheme.BINANCE_DARK -> true
     AppTheme.BINANCE_LIGHT -> false
+    AppTheme.PREMIUM_DARK -> true
 }
 
 // ============================================
@@ -279,6 +281,7 @@ fun FonTakipTheme(
     val typography = when (appTheme) {
         AppTheme.BINANCE_DARK -> BinanceTypography
         AppTheme.BINANCE_LIGHT -> BinanceLightTypography
+        AppTheme.PREMIUM_DARK -> BinanceTypography
     }
 
     val view = LocalView.current

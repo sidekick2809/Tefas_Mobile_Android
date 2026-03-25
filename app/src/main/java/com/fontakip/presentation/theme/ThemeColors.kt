@@ -4,7 +4,8 @@ import androidx.compose.ui.graphics.Color
 
 enum class AppTheme(val displayName: String) {
     BINANCE_DARK("Binance Dark"),
-    BINANCE_LIGHT("Binance Light")
+    BINANCE_LIGHT("Binance Light"),
+    PREMIUM_DARK("Premium Dark")
 }
 
 // Tema Renkleri Sınıfı
@@ -52,6 +53,37 @@ data class ThemeColors(
 // Tema Renkleri Uygulama Fonksiyonu
 fun getThemeColors(theme: AppTheme): ThemeColors {
     return when (theme) {
+        // ==================== PREMIUM DARK THEME ====================
+        AppTheme.PREMIUM_DARK -> ThemeColors(
+            background = Color(0xFF0A0E14), // Deep Navy Black
+            cardBackground = Color(0xFF151A21), // Dark Card Surface
+            cardBorder = Color(0xFF2A3441), // Subtle border
+            primary = Color(0xFF00D4AA), // Premium Teal/Cyan
+            primaryContainer = Color(0xFF008B72), // Darker Teal
+            onPrimary = Color(0xFF0A0E14), // Dark background
+            onPrimaryContainer = Color(0xFFE0FFFA), // Light teal text
+            profitGreen = Color(0xFF00E096), // Bright Green
+            lossRed = Color(0xFFFF6B6B), // Soft Red
+            textPrimary = Color(0xFFFFFFFF), // Pure White
+            textSecondary = Color(0xFF8B9AAF), // Muted blue-gray
+            divider = Color(0xFF2A3441), // Border color
+            white = Color(0xFFFFFFFF), // White
+            black = Color(0xFF000000), // Black
+            surface = Color(0xFF151A21), // Surface
+            onSurface = Color(0xFFFFFFFF), // On surface
+            surfaceVariant = Color(0xFF1E2430), // Surface variant
+            onSurfaceVariant = Color(0xFF8B9AAF), // On surface variant
+            outline = Color(0xFF2A3441), // Outline
+            error = Color(0xFFFF6B6B), // Error red
+            onError = Color(0xFFFFFFFF), // On error
+            // Navigation Bar Renkleri - Premium Style
+            navBarBackground = Color(0xFF0F1419), // Dark nav bar
+            navBarIndicator = Color(0xFF00D4AA), // Teal indicator
+            navBarSelectedIcon = Color(0xFF00D4AA), // Teal selected
+            navBarSelectedText = Color(0xFF00D4AA), // Teal selected
+            navBarUnselectedIcon = Color(0xFF5A6A7A), // Muted icon
+            navBarUnselectedText = Color(0xFF5A6A7A)  // Muted text
+        )
         // ==================== BINANCE DARK THEME ====================
         AppTheme.BINANCE_DARK -> ThemeColors(
             background = Color(0xFF000000), // BinanceBlack

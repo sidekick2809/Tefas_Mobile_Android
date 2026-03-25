@@ -10,7 +10,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -63,7 +62,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -145,10 +143,6 @@ fun MainPortfolioScreen(
         sharedPrefs.edit().putInt("current_portfolio_index", uiState.currentPortfolioIndex).apply()
     }
 
-    // Swipe state for horizontal swipe detection
-    var swipeOffset by remember { mutableFloatStateOf(0f) }
-    val swipeThreshold = 100f
-
     val pullRefreshState = rememberPullToRefreshState()
     
     LaunchedEffect(pullRefreshState.isRefreshing) {
@@ -176,34 +170,7 @@ fun MainPortfolioScreen(
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
-                    .pointerInput(Unit) {
-                        detectHorizontalDragGestures(
-                            onDragEnd = {
-                                // Reset swipe offset
-                                swipeOffset = 0f
-                            },
-                            onHorizontalDrag = { _, dragAmount ->
-                                swipeOffset += dragAmount
-                                // If swipe threshold is reached, change portfolio
-                                if (swipeOffset > swipeThreshold) {
-                                    // Swiped right - go to next portfolio (with wrap-around)
-                                    val nextIndex = (uiState.currentPortfolioIndex + 1) % uiState.portfolios.size
-                                    viewModel.selectPortfolio(nextIndex)
-                                    swipeOffset = 0f
-                                } else if (swipeOffset < -swipeThreshold) {
-                                    // Swiped left - go to previous portfolio (with wrap-around)
-                                    val prevIndex = if (uiState.currentPortfolioIndex == 0) {
-                                        uiState.portfolios.size - 1
-                                    } else {
-                                        uiState.currentPortfolioIndex - 1
-                                    }
-                                    viewModel.selectPortfolio(prevIndex)
-                                    swipeOffset = 0f
-                                }
-                            }
-                        )
-                    },
+                    .height(56.dp),
                 color = MaterialTheme.colorScheme.background
             ) {
                 Box(
