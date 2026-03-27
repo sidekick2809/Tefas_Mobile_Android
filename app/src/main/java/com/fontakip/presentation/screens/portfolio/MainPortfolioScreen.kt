@@ -41,9 +41,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -107,9 +104,15 @@ import com.fontakip.presentation.theme.ProfitGreen
 import com.fontakip.presentation.theme.ThemeColors
 import androidx.compose.material3.Card as Card1
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.material.icons.filled.Payments
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import com.fontakip.presentation.theme.themeBigBox
+import com.fontakip.presentation.theme.themeBorder
+import com.fontakip.presentation.theme.themeIconics
+import com.fontakip.presentation.theme.themeSmallBox
+import com.fontakip.presentation.theme.themekututext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -141,22 +144,6 @@ fun MainPortfolioScreen(
     LaunchedEffect(uiState.currentPortfolioIndex) {
         val sharedPrefs = activityContext.getSharedPreferences("portfolio_prefs", android.content.Context.MODE_PRIVATE)
         sharedPrefs.edit().putInt("current_portfolio_index", uiState.currentPortfolioIndex).apply()
-    }
-
-    val pullRefreshState = rememberPullToRefreshState()
-    
-    LaunchedEffect(pullRefreshState.isRefreshing) {
-        if (pullRefreshState.isRefreshing) {
-            viewModel.refresh()
-        }
-    }
-    
-    // Disable pull to refresh loading once data finishes fetching
-    LaunchedEffect(uiState.isLoading) {
-        if (!uiState.isLoading && pullRefreshState.isRefreshing) {
-            delay(500) // Small delay for animations/state propagation
-            pullRefreshState.endRefresh()
-        }
     }
 
     // Animation effect on load
@@ -238,7 +225,7 @@ fun MainPortfolioScreen(
                                 Icon(
                                     imageVector = Icons.Default.Edit,
                                     contentDescription = "Portföyü Yeniden Adlandır",
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = MaterialTheme.colorScheme.themeIconics
                                 )
                             }
                             // Delete Icon (only for user-created portfolios)
@@ -246,7 +233,7 @@ fun MainPortfolioScreen(
                                 Icon(
                                     imageVector = Icons.Default.Delete,
                                     contentDescription = "Portföyü Sil",
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = MaterialTheme.colorScheme.themeIconics
                                 )
                             }
                         }
@@ -258,7 +245,7 @@ fun MainPortfolioScreen(
                             Icon(
                                 imageVector = Icons.Default.Add,
                                 contentDescription = "Yeni Portföy Ekle",
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MaterialTheme.colorScheme.themeIconics
                             )
                         }
                         // Settings Icon
@@ -266,7 +253,7 @@ fun MainPortfolioScreen(
                             Icon(
                                 imageVector = Icons.Default.Palette,
                                 contentDescription = "Ayarlar",
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MaterialTheme.colorScheme.themeIconics
                             )
                         }
                     }
@@ -278,7 +265,6 @@ fun MainPortfolioScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .nestedScroll(pullRefreshState.nestedScrollConnection)
         ) {
             if (uiState.isLoading) {
                 Box(
@@ -329,11 +315,6 @@ fun MainPortfolioScreen(
                 }
             }
         }
-        
-        PullToRefreshContainer(
-            state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
 
     // Rename Dialog
@@ -595,10 +576,10 @@ private fun PortfolioSummarySection(
             )
             .border(
                 width = 2.dp,
-                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f),
+                color = MaterialTheme.colorScheme.themeBorder.copy(alpha = 0.9f),
                 shape = RoundedCornerShape(16.dp)
             ),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             // Arkaplan Resmi - Yarı Transparan
@@ -739,9 +720,20 @@ private fun AssetCard(
     Card1(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(4.dp, RoundedCornerShape(12.dp))
-            .clickable { onCardClick() },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+           // .shadow(4.dp, RoundedCornerShape(12.dp))
+            .clickable { onCardClick() }
+            .shadow(
+            elevation = 12.dp,
+             shape = RoundedCornerShape(16.dp),
+            ambientColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+             spotColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f)
+    )
+            .border(
+            width = 2.dp,
+            color = MaterialTheme.colorScheme.themeBorder.copy(alpha = 0.9f),
+             shape = RoundedCornerShape(16.dp)
+    ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox)
     ) {
         Column(
             modifier = Modifier
@@ -785,14 +777,14 @@ private fun AssetCard(
                         Icon(
                             imageVector = Icons.Default.Info,
                             contentDescription = "Bilgi",
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.themeIconics
                         )
                     }
                     IconButton(onClick = onBuyClick) {
                         Icon(
                             imageVector = Icons.Default.Payments,
                             contentDescription = "AL SAT",
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.themeIconics
                         )
                     }
                 }
@@ -809,7 +801,7 @@ private fun AssetCard(
                 Card1(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeSmallBox)
                 ) {
                     Column(
                         modifier = Modifier
@@ -820,7 +812,7 @@ private fun AssetCard(
                         Text(
                             text = "Yatırım Miktarı",
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.primaryContainer
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
@@ -836,7 +828,7 @@ private fun AssetCard(
                 Card1(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeSmallBox)
                 ) {
                     Column(
                         modifier = Modifier
@@ -847,7 +839,7 @@ private fun AssetCard(
                         Text(
                             text = "Adet",
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.primaryContainer
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
@@ -863,7 +855,7 @@ private fun AssetCard(
                 Card1(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeSmallBox)
                 ) {
                     Column(
                         modifier = Modifier
@@ -874,7 +866,7 @@ private fun AssetCard(
                         Text(
                             text = "Br Maliyet",
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.primaryContainer
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
@@ -898,7 +890,7 @@ private fun AssetCard(
                 Card1(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
+                    colors = CardDefaults.cardColors(containerColor = if (asset.dailyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error)
                 ) {
                     Column(
                         modifier = Modifier
@@ -909,14 +901,14 @@ private fun AssetCard(
                         Text(
                             text = "1G Kar",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.primaryContainer
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = percentFormat.format(asset.dailyChangePercent / 100),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (asset.dailyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                         //val dailyChangeTL = asset.units * asset.dailyChangePercent / 100 * asset.purchasePrice
                         val dailyChangeTL = (asset.units * asset.currentPrice) - (asset.units * asset.priceYesterday)
@@ -924,7 +916,7 @@ private fun AssetCard(
                             text = tlFormat.format(dailyChangeTL),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (dailyChangeTL >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                     }
                 }
@@ -933,7 +925,7 @@ private fun AssetCard(
                 Card1(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
+                    colors = CardDefaults.cardColors(containerColor = if (asset.weeklyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error)
                 ) {
                     Column(
                         modifier = Modifier
@@ -944,21 +936,21 @@ private fun AssetCard(
                         Text(
                             text = "1H Kar",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.primaryContainer
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = percentFormat.format(asset.weeklyChangePercent / 100),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (asset.weeklyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                         val weeklyChangeTL = (asset.units * asset.currentPrice) - (asset.units * asset.priceSevenDaysAgo)
                         Text(
                             text = tlFormat.format(weeklyChangeTL),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (weeklyChangeTL >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                     }
                 }
@@ -967,7 +959,7 @@ private fun AssetCard(
                 Card1(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
+                    colors = CardDefaults.cardColors(containerColor = if (asset.currentPrice > 0 && (asset.units * asset.currentPrice) > (asset.units * asset.purchasePrice)) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error)
                 ) {
                     Column(
                         modifier = Modifier
@@ -978,7 +970,7 @@ private fun AssetCard(
                         Text(
                             text = "KAR",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.primaryContainer
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         // Önce % olarak kar/zarar
@@ -989,7 +981,7 @@ private fun AssetCard(
                             text = if (asset.currentPrice > 0) "${if (profitLossPercent >= 0) "+" else ""}${String.format(Locale.US, "%.2f", profitLossPercent)}%" else "VeriYok",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
-                            color = if (asset.currentPrice > 0 && profitLossPercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         // Sonra TL olarak kar/zarar
@@ -997,7 +989,7 @@ private fun AssetCard(
                             text = if (asset.currentPrice > 0) tlFormat.format((asset.units * asset.currentPrice) - (asset.units * asset.purchasePrice)) else "VeriYok",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium,
-                            color = if (asset.currentPrice > 0 && (asset.units * asset.currentPrice) > (asset.units * asset.purchasePrice)) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
+                            color = MaterialTheme.colorScheme.themekututext
                         )
                     }
                 }

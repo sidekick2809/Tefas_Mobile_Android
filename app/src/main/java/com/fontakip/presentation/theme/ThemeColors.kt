@@ -47,7 +47,14 @@ data class ThemeColors(
     val navBarSelectedIcon: Color,
     val navBarSelectedText: Color,
     val navBarUnselectedIcon: Color,
-    val navBarUnselectedText: Color
+    val navBarUnselectedText: Color,
+
+    // Özel Kutu ve İkon Renkleri
+    val bigbox: Color,
+    val smallbox: Color,
+    val border: Color,
+    val iconics: Color,
+    val kututext: Color
 )
 
 // Tema Renkleri Uygulama Fonksiyonu
@@ -59,7 +66,7 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             cardBackground = Color(0xFF151A21), // Dark Card Surface
             cardBorder = Color(0xFF2A3441), // Subtle border
             primary = Color(0xFF00D4AA), // Premium Teal/Cyan
-            primaryContainer = Color(0xFF008B72), // Darker Teal
+            primaryContainer = Color(0xFFFAFAFA), // Darker Teal
             onPrimary = Color(0xFF0A0E14), // Dark background
             onPrimaryContainer = Color(0xFFE0FFFA), // Light teal text
             profitGreen = Color(0xFF00E096), // Bright Green
@@ -82,7 +89,13 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             navBarSelectedIcon = Color(0xFF00D4AA), // Teal selected
             navBarSelectedText = Color(0xFF00D4AA), // Teal selected
             navBarUnselectedIcon = Color(0xFF5A6A7A), // Muted icon
-            navBarUnselectedText = Color(0xFF5A6A7A)  // Muted text
+            navBarUnselectedText = Color(0xFF5A6A7A),  // Muted text
+            // Özel Kutu ve İkon Renkleri
+            bigbox = Color(0xFF0288D1),
+            smallbox = Color(0xFF0097A7),
+            border = Color(0xFF1976D2),
+            iconics = Color(0xFF00D4AA),
+            kututext = Color(0xFF00D4AA)
         )
         // ==================== BINANCE DARK THEME ====================
         AppTheme.BINANCE_DARK -> ThemeColors(
@@ -113,7 +126,13 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             navBarSelectedIcon = Color(0xFFF0B90B), // BinanceYellow
             navBarSelectedText = Color(0xFFF0B90B), // BinanceYellow
             navBarUnselectedIcon = Color(0xFF707070), // BinanceNavBarInactive
-            navBarUnselectedText = Color(0xFF707070) // BinanceNavBarInactive
+            navBarUnselectedText = Color(0xFF707070), // BinanceNavBarInactive
+            // Özel Kutu ve İkon Renkleri
+            bigbox = Color(0xFF363131),
+            smallbox = Color(0xFF5E5C5C),
+            border = Color(0xFFFBC02D),
+            iconics = Color(0xFFF0B90B),
+            kututext = Color(0xFFFCFCFC)
         )
         // ==================== BINANCE LIGHT THEME ====================
         AppTheme.BINANCE_LIGHT -> ThemeColors(
@@ -121,7 +140,7 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             cardBackground = Color(0xFFFFFFFF), // Saf beyaz kartlar
             cardBorder = Color(0xFF1366D3), // Yumuşak gri-mavi kenarlık
             primary = Color(0xFF0D9488), // Ana renk: Teal/Zümrüt yeşili
-            primaryContainer = Color(0xFFCCFBF1), // Açık yeşil vurgu alanı
+            primaryContainer = Color(0xFFFFFFFF), // Açık yeşil vurgu alanı
             onPrimary = Color(0xFFFFFFFF), 
             onPrimaryContainer = Color(0xFF134E4A),
             profitGreen = Color(0xFF10B981), // Finansal kar yeşili
@@ -144,7 +163,13 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             navBarSelectedIcon = Color(0xFF0D9488), // Seçili ikon yeşili
             navBarSelectedText = Color(0xFF0D9488), // Seçili yazı yeşili
             navBarUnselectedIcon = Color(0xFF93A2B7), // Pasif ikonlar
-            navBarUnselectedText = Color(0xFF94A3B8)  // Pasif yazılar
+            navBarUnselectedText = Color(0xFF94A3B8),  // Pasif yazılar
+            // Özel Kutu ve İkon Renkleri
+            bigbox = Color(0xFFFFFFFF),
+            smallbox = Color(0xFF0D9488),
+            border = Color(0xFF388E3C),
+            iconics = Color(0xFF0D9488),
+            kututext = Color(0xFFFFFFFF)
         )
     }
 }

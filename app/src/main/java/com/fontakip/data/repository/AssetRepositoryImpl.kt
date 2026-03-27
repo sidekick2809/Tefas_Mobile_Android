@@ -7,6 +7,9 @@ import com.fontakip.data.remote.model.TefasFund
 import com.fontakip.domain.model.Asset
 import com.fontakip.domain.repository.AssetRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,6 +19,13 @@ class AssetRepositoryImpl @Inject constructor(
     private val assetDao: AssetDao,
     private val tefasApiService: TefasApiService
 ) : AssetRepository {
+
+    private val _assetUpdateEvent = MutableSharedFlow<String>()
+    override fun getAssetUpdateEvent(): SharedFlow<String> = _assetUpdateEvent.asSharedFlow()
+
+    suspend fun emitAssetUpdateEvent(message: String) {
+        _assetUpdateEvent.emit(message)
+    }
 
     override fun getAssetsByPortfolio(portfolioId: Long): Flow<List<Asset>> {
         return assetDao.getAssetsByPortfolio(portfolioId).map { entities ->
@@ -54,6 +64,7 @@ class AssetRepositoryImpl @Inject constructor(
 
     override suspend fun insertAssets(assets: List<Asset>) {
         assetDao.insertAssets(assets.map { it.toEntity() })
+        _assetUpdateEvent.emit("assets_updated")
     }
 
     override fun getAssetsByFontip(fontip: String): Flow<List<Asset>> {
@@ -99,7 +110,7 @@ class AssetRepositoryImpl @Inject constructor(
     override suspend fun deleteAllAssets() {
         assetDao.deleteAllAssets()
     }
-    
+      
     override suspend fun getFundHistory(
         fundCode: String,
         startDate: String,

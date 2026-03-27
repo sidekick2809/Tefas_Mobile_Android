@@ -120,6 +120,27 @@ fun getDividerColor(theme: AppTheme) = getThemeColors(theme).divider
 fun getPrimaryColor(theme: AppTheme) = getThemeColors(theme).primary
 
 /**
+ * Bigbox rengini döndürür
+ */
+fun getBigBoxColor(theme: AppTheme) = getThemeColors(theme).bigbox
+
+/**
+ * Smallbox rengini döndürür
+ */
+fun getSmallBoxColor(theme: AppTheme) = getThemeColors(theme).smallbox
+
+/**
+ * Border rengini döndürür
+ */
+fun getBorderColor(theme: AppTheme) = getThemeColors(theme).border
+
+/**
+ * Iconics rengini döndürür
+ */
+fun getIconicsColor(theme: AppTheme) = getThemeColors(theme).iconics
+fun getkututextColor(theme: AppTheme) = getThemeColors(theme).kututext
+
+/**
  * Tema açık/koyu mod mu olduğunu döndürür
  */
 fun isDarkTheme(theme: AppTheme) = when (theme) {
@@ -250,6 +271,46 @@ fun getNavBarUnselectedTextColor(): Color {
     return getThemeColors(appTheme).navBarUnselectedText
 }
 
+/**
+ * Tema rengine göre bigbox rengini döndürür
+ */
+@Composable
+fun getThemeBigBoxColor(): Color {
+    val appTheme = LocalAppTheme.current
+    return getThemeColors(appTheme).bigbox
+}
+
+/**
+ * Tema rengine göre smallbox rengini döndürür
+ */
+@Composable
+fun getThemeSmallBoxColor(): Color {
+    val appTheme = LocalAppTheme.current
+    return getThemeColors(appTheme).smallbox
+}
+
+/**
+ * Tema rengine göre border rengini döndürür
+ */
+@Composable
+fun getThemeBorderColor(): Color {
+    val appTheme = LocalAppTheme.current
+    return getThemeColors(appTheme).border
+}
+
+/**
+ * Tema rengine göre iconics rengini döndürür
+ */
+@Composable
+fun getThemeIconicsColor(): Color {
+    val appTheme = LocalAppTheme.current
+    return getThemeColors(appTheme).iconics
+}
+@Composable
+fun getThemekututextColor(): Color {
+    val appTheme = LocalAppTheme.current
+    return getThemeColors(appTheme).kututext
+}
 /**
  * Tema rengine göre arka plan gradyan fırçasını döndürür
  */
@@ -401,3 +462,19 @@ val ColorScheme.themeNavBarUnselectedIcon: Color
 
 val ColorScheme.themeNavBarUnselectedText: Color
     @Composable get() = getThemeColors(LocalAppTheme.current).navBarUnselectedText
+
+// Özel Kutu ve İkon Renkleri
+val ColorScheme.themeBigBox: Color
+    @Composable get() = getThemeColors(LocalAppTheme.current).bigbox
+
+val ColorScheme.themeSmallBox: Color
+    @Composable get() = getThemeColors(LocalAppTheme.current).smallbox
+
+val ColorScheme.themeBorder: Color
+    @Composable get() = getThemeColors(LocalAppTheme.current).border
+
+val ColorScheme.themeIconics: Color
+    @Composable get() = getThemeColors(LocalAppTheme.current).iconics
+
+val ColorScheme.themekututext: Color
+    @Composable get() = getThemeColors(LocalAppTheme.current).kututext

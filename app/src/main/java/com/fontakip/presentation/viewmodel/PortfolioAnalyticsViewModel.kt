@@ -59,6 +59,13 @@ class PortfolioAnalyticsViewModel @Inject constructor(
 
     init {
         loadPortfolios()
+        
+        // Listen for asset update events from TEFAS fetch
+        viewModelScope.launch {
+            assetRepository.getAssetUpdateEvent().collectLatest {
+                loadAssetsForCurrentPortfolio()
+            }
+        }
     }
 
     private fun loadPortfolios() {

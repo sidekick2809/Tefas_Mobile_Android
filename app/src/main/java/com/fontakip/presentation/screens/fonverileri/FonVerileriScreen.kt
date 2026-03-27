@@ -86,6 +86,7 @@ import com.fontakip.presentation.theme.TextSecondary
 import com.fontakip.presentation.theme.White
 import com.fontakip.presentation.theme.LossRed
 import com.fontakip.presentation.theme.ProfitGreen
+import com.fontakip.presentation.theme.themeBigBox
 import com.fontakip.presentation.viewmodel.FonVerileriViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -670,7 +671,7 @@ private fun FundListItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {

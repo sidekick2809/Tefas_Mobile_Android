@@ -3,6 +3,7 @@ package com.fontakip.domain.repository
 import com.fontakip.data.remote.model.FundHistoryItem
 import com.fontakip.domain.model.Asset
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 
 interface AssetRepository {
     fun getAssetsByPortfolio(portfolioId: Long): Flow<List<Asset>>
@@ -23,6 +24,11 @@ interface AssetRepository {
     fun getAllFavoriteAssets(): Flow<List<Asset>>
     suspend fun updateFavoriteByCode(code: String, isFavorite: Boolean)
     fun getFavoriteFunds(): Flow<List<Asset>>
+    
+    /**
+     * Flow that emits when assets are updated from TEFAS
+     */
+    fun getAssetUpdateEvent(): SharedFlow<String>
     
     /**
      * Get fund history data for chart display
