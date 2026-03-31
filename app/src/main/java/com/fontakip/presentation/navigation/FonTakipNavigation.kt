@@ -138,9 +138,6 @@ fun SwipeableNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    var totalDragX by remember { mutableStateOf(0f) }
-    val swipeThreshold = 100f
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
@@ -154,7 +151,10 @@ fun SwipeableNavHost(
             .fillMaxSize()
             .then(
                 if (!isSubPage) {
-                    Modifier.pointerInput(Unit) {
+                    Modifier.pointerInput(currentRoute) {
+                        var totalDragX = 0f
+                        val swipeThreshold = 100f
+                        
                         detectHorizontalDragGestures(
                             onDragStart = { totalDragX = 0f },
                             onDragEnd = {
