@@ -61,6 +61,8 @@ import com.fontakip.presentation.viewmodel.FavoriteWithAsset
 import com.fontakip.presentation.viewmodel.FavoritesViewModel
 import com.fontakip.domain.model.Asset
 import com.fontakip.presentation.screens.portfolio.FundDetailScreen
+import com.fontakip.presentation.theme.themeOnSurface
+import com.fontakip.presentation.theme.themeSurface
 import com.fontakip.presentation.viewmodel.PortfolioViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,10 +80,11 @@ fun FavoritesScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                color = getPrimaryColor()
+                color = MaterialTheme.colorScheme.themeSurface
             ) {
                 Box(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
                 ) {
                     Row(
                         modifier = Modifier
@@ -94,10 +97,10 @@ fun FavoritesScreen(
                         Text(
                             text = "FAVORİLER",
                             fontWeight = FontWeight.Bold,
-                            color = White,
+                            color = MaterialTheme.colorScheme.themeOnSurface,
                             style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center
+                            modifier = Modifier.weight(2f).padding(12.dp),
+                            textAlign = TextAlign.Start
                         )
                     }
                 }
@@ -136,12 +139,7 @@ fun FavoritesScreen(
                     )
                 }
             } else {
-                Text(
-                    text = "Favoriler (${uiState.favorites.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = TextPrimary
-                )
+
                 Spacer(modifier = Modifier.height(8.dp))
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()

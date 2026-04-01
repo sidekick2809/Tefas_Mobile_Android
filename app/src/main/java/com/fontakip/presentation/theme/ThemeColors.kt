@@ -138,8 +138,8 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
         AppTheme.BINANCE_LIGHT -> ThemeColors(
             background = Color(0xFFFFFFFF), // Çok açık buz mavisi/beyaz (Arka plan)
             cardBackground = Color(0xFFFFFFFF), // Saf beyaz kartlar
-            cardBorder = Color(0xFF1366D3), // Yumuşak gri-mavi kenarlık
-            primary = Color(0xFF0D9488), // Ana renk: Teal/Zümrüt yeşili
+            cardBorder = Color(0xFF3776CB), // Yumuşak gri-mavi kenarlık
+            primary = Color(0xFFE3F2FD), // Ana renk: Teal/Zümrüt yeşili
             primaryContainer = Color(0xFFFFFFFF), // Açık yeşil vurgu alanı
             onPrimary = Color(0xFFFFFFFF), 
             onPrimaryContainer = Color(0xFF134E4A),
@@ -153,12 +153,12 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             surface = Color(0xFFFFFFFF), // Hafif gri-mavi yüzey
             onSurface = Color(0xFF1E293B),
             surfaceVariant = Color(0xFFF8FAFC),
-            onSurfaceVariant = Color(0xFFF8F8F8),
+            onSurfaceVariant = Color(0xFFE3F2FD),
             outline = Color(0xFFCBD5E1),
             error = Color(0xFFEF4444),
             onError = Color(0xFFFFFFFF),
             // Navigation Bar Renkleri
-            navBarBackground = Color(0xFFFFFFFF), // Beyaz alt bar
+            navBarBackground = Color(0xFFDBECF8), // Beyaz alt bar
             navBarIndicator = Color(0xFFE2E8F0), // Seçili öğe arkasındaki hafif oval gölge
             navBarSelectedIcon = Color(0xFF0D9488), // Seçili ikon yeşili
             navBarSelectedText = Color(0xFF0D9488), // Seçili yazı yeşili
@@ -166,10 +166,10 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             navBarUnselectedText = Color(0xFF94A3B8),  // Pasif yazılar
             // Özel Kutu ve İkon Renkleri
             bigbox = Color(0xFFFFFFFF),
-            smallbox = Color(0xFF0D9488),
-            border = Color(0xFF388E3C),
-            iconics = Color(0xFF0D9488),
-            kututext = Color(0xFFFFFFFF)
+            smallbox = Color(0xFFE3F2FD),
+            border = Color(0xFF2196F3),
+            iconics = Color(0xFF2196F3),
+            kututext = Color(0xFF090909)
         )
     }
 }

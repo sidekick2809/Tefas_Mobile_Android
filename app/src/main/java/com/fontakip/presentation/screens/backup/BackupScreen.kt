@@ -32,6 +32,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -53,6 +54,10 @@ import com.fontakip.presentation.theme.getPrimaryColor
 import com.fontakip.presentation.theme.getThemeBackgroundColor
 import com.fontakip.presentation.theme.TextSecondary
 import com.fontakip.presentation.theme.White
+import com.fontakip.presentation.theme.themeIconics
+import com.fontakip.presentation.theme.themeOnSurface
+import com.fontakip.presentation.theme.themeSmallBox
+import com.fontakip.presentation.theme.themeSurface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -63,6 +68,19 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+/**
+ * A Composable screen that provides database backup and restore functionality.
+ *
+ * This screen allows users to:
+ * 1. **Export Database**: Creates a copy of the current SQLite database and saves it to the
+ *    device's Downloads folder. It handles storage permissions for Android 11+ (Scoped Storage).
+ * 2. **Import Database**: Opens a system file picker to select a previously backed-up database
+ *    file. If successful, it replaces the current database and restarts the application to
+ *    apply changes.
+ *
+ * The UI consists of a scaffold with a top bar, informative text, and interactive cards
+ * for triggering backup and restore operations with visual loading states.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BackupScreen() {
@@ -102,7 +120,7 @@ fun BackupScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                color = getPrimaryColor()
+                color = MaterialTheme.colorScheme.themeSurface
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -111,7 +129,9 @@ fun BackupScreen() {
                     Text(
                         text = "YEDEKLE",
                         fontWeight = FontWeight.Bold,
-                        color = White
+                        color = MaterialTheme.colorScheme.themeOnSurface,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.align(Alignment.TopStart).padding(12.dp)
                     )
                 }
             }
@@ -160,7 +180,7 @@ fun BackupScreen() {
                                 return@launch
                             }
                         }
-                        
+
                         isExporting = true
                         try {
                             val file = exportDatabase(context)
@@ -190,7 +210,7 @@ fun BackupScreen() {
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = getPrimaryColor().copy(alpha = 0.1f)),
+                colors = cardColors(containerColor = MaterialTheme.colorScheme.themeSmallBox),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Row(
@@ -200,7 +220,7 @@ fun BackupScreen() {
                     Icon(
                         imageVector = Icons.Default.Backup,
                         contentDescription = null,
-                        tint = getPrimaryColor(),
+                        tint = MaterialTheme.colorScheme.themeIconics,
                         modifier = Modifier.size(32.dp)
                     )
                     Spacer(modifier = Modifier.width(12.dp))
@@ -235,7 +255,8 @@ private fun BackupCard(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(enabled = !isLoading, onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = getPrimaryColor()),
+        colors = cardColors(
+            containerColor = MaterialTheme.colorScheme.themeSmallBox),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
@@ -248,13 +269,13 @@ private fun BackupCard(
             if (isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(40.dp),
-                    color = getPrimaryColor()
+                    color = MaterialTheme.colorScheme.themeSmallBox
                 )
             } else {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = getPrimaryColor(),
+                    tint = MaterialTheme.colorScheme.themeIconics,
                     modifier = Modifier.size(40.dp)
                 )
             }

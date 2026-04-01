@@ -16,7 +16,7 @@ val BinanceTypography = Typography(
         fontSize = 36.sp,
         lineHeight = 44.sp,
         letterSpacing = (-0.5).sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF94A3B8) // BinanceTextPrimary - White
     ),
     displayMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -24,7 +24,7 @@ val BinanceTypography = Typography(
         fontSize = 32.sp,
         lineHeight = 40.sp,
         letterSpacing = 0.sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF707070) // BinanceTextPrimary - White
     ),
     displaySmall = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -32,7 +32,7 @@ val BinanceTypography = Typography(
         fontSize = 28.sp,
         lineHeight = 36.sp,
         letterSpacing = 0.sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF707070) // BinanceTextPrimary - White
     ),
     // Headlines - Yellow for emphasis
     headlineLarge = TextStyle(
@@ -91,7 +91,7 @@ val BinanceTypography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFFFFFFFF) // ARAMA SEARCH YAZI RENGI
     ),
     bodyMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -108,7 +108,7 @@ val BinanceTypography = Typography(
         fontSize = 12.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.4.sp,
-        color = Color(0xFFB0B0B0) // BinanceTextSecondary - Gray
+        color = Color(0xFF707070) // BinanceTextSecondary - Gray
     ),
     // Labels
     labelLarge = TextStyle(
@@ -117,7 +117,7 @@ val BinanceTypography = Typography(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF707070) // BinanceTextPrimary - White
     ),
     labelMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -125,7 +125,7 @@ val BinanceTypography = Typography(
         fontSize = 12.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,
-        color = Color(0xFFB0B0B0) // BinanceTextSecondary - Gray
+        color = Color(0xFF707070) // BinanceTextSecondary - Gray
     ),
     labelSmall = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -146,7 +146,7 @@ val BinanceLightTypography = Typography(
         fontSize = 36.sp,
         lineHeight = 44.sp,
         letterSpacing = (-0.5).sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF707070) // BinanceTextPrimary - White
     ),
     displayMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -154,7 +154,7 @@ val BinanceLightTypography = Typography(
         fontSize = 32.sp,
         lineHeight = 40.sp,
         letterSpacing = 0.sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF707070) // BinanceTextPrimary - White
     ),
     displaySmall = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -162,7 +162,7 @@ val BinanceLightTypography = Typography(
         fontSize = 28.sp,
         lineHeight = 36.sp,
         letterSpacing = 0.sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF707070) // BinanceTextPrimary - White
     ),
     // Headlines - Yellow for emphasis
     headlineLarge = TextStyle(
@@ -221,7 +221,7 @@ val BinanceLightTypography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF000000) // ARAMA SEARCH YAZI RENGI
     ),
     bodyMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -229,7 +229,7 @@ val BinanceLightTypography = Typography(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.25.sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF707070) // BinanceTextPrimary - White
     ),
     // Secondary info - Dimmed
     bodySmall = TextStyle(
@@ -247,7 +247,7 @@ val BinanceLightTypography = Typography(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp,
-        color = Color(0xFFFFFFFF) // BinanceTextPrimary - White
+        color = Color(0xFF707070) // BinanceTextPrimary - White
     ),
     labelMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,

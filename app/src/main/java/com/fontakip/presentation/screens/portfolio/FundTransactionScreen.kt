@@ -87,12 +87,7 @@ fun FundTransactionScreen(
 ) {
     val context = LocalContext.current
     
-    // Default price: show average purchase price if user owns this fund, otherwise show current market price
-    val defaultPrice = if (fund.purchasePrice > 0 && fund.units > 0) {
-        fund.purchasePrice
-    } else {
-        fund.currentPrice
-    }
+    val defaultPrice = fund.currentPrice
     
     var quantityText by remember { mutableStateOf("") }
     var priceText by remember { mutableStateOf(defaultPrice.takeIf { it > 0 }?.let { String.format(Locale.US, "%.4f", it) } ?: "") }
@@ -283,7 +278,7 @@ fun FundTransactionScreen(
             OutlinedTextField(
                 value = quantityText,
                 onValueChange = { quantityText = it },
-                label = { Text("Miktar (Adet)",color = MaterialTheme.colorScheme.onError) },
+                label = { Text("Miktar (Adet)",color = MaterialTheme.colorScheme.onSurfaceVariant) },
                 placeholder = { Text("Örn: 10",color = MaterialTheme.colorScheme.onError) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),

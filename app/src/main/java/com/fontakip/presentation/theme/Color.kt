@@ -24,7 +24,7 @@ val BinanceLightBg = Color(0xFFF5F5F5)
 val BinanceSurfaceWhite = Color(0xFFFFFFFF)
 
 // Binance Text Colors
-val BinanceTextPrimary = Color(0xFFFFFFFF)        // White - primary text
+val BinanceTextPrimary = Color(0xFFFBC02D)        // White - primary text
 val BinanceTextSecondary = Color(0xFFB0B0B0)   // Gray - secondary text
 val BinanceTextTertiary = Color(0xFF707070)   // Dark gray - tertiary
 val BinanceTextYellow = Color(0xFFF0B90B)     // Yellow - for emphasis

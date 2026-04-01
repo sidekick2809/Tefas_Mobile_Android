@@ -35,6 +35,7 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -86,7 +87,15 @@ import com.fontakip.presentation.theme.TextSecondary
 import com.fontakip.presentation.theme.White
 import com.fontakip.presentation.theme.LossRed
 import com.fontakip.presentation.theme.ProfitGreen
+import com.fontakip.presentation.theme.getCardBackgroundColor
 import com.fontakip.presentation.theme.themeBigBox
+import com.fontakip.presentation.theme.themeBorder
+import com.fontakip.presentation.theme.themeOnSurface
+import com.fontakip.presentation.theme.themePrimary
+import com.fontakip.presentation.theme.themePrimaryContainer
+import com.fontakip.presentation.theme.themeSmallBox
+import com.fontakip.presentation.theme.themeSurface
+import com.fontakip.presentation.theme.themekututext
 import com.fontakip.presentation.viewmodel.FonVerileriViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -138,33 +147,22 @@ fun FonVerileriScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                color = MaterialTheme.colorScheme.surface
+                color = MaterialTheme.colorScheme.themeSurface
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
-                ) {
+                )
+         {
                     // Title - centered
                     Text(
                         text = "FON VERİLERİ",
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.themeOnSurface,
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(Alignment.TopStart).padding(12.dp)
 
                     )
-
-                    // Settings button on the right
-                    IconButton(
-                        onClick = { showSettingsDialog = true },
-                        modifier = Modifier.align(Alignment.CenterEnd)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = "Ayarlar",
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    }
                 }
             }
         }
@@ -179,7 +177,7 @@ fun FonVerileriScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .shadow(8.dp, shape = RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.themeSurface, RoundedCornerShape(16.dp))
                     .padding(paddingValues),
                 horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -188,100 +186,92 @@ fun FonVerileriScreen(
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
-            // Tür Selection (YAT / EMK) - boxed and compact
+            // Fund Type Selection Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeSmallBox)
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 4.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
+                Column(
+                    modifier = Modifier.padding(12.dp)
                 ) {
                     Text(
-                        text = "TÜR:",
+                        text = "TEFAS'dan çekeceğiniz verinin türünü seçiniz",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        fontWeight = FontWeight.Medium
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    RadioButton(
-                        selected = uiState.selectedFontip == "YAT",
-                        onClick = { viewModel.setFontip("YAT") },
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = MaterialTheme.colorScheme.onBackground
-                        ),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "YAT",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primaryContainer
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    RadioButton(
-                        selected = uiState.selectedFontip == "EMK",
-                        onClick = { viewModel.setFontip("EMK") },
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = MaterialTheme.colorScheme.onBackground
-                        ),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "EMK",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primaryContainer
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    RadioButton(
-                        selected = uiState.selectedFontip == "ALL",
-                        onClick = { viewModel.setFontip("ALL") },
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = MaterialTheme.colorScheme.onBackground
-                        ),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "HEPSİ",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primaryContainer
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    IconButton(
-                        onClick = { viewModel.deleteAllAssets() },
-                        enabled = !uiState.isLoading
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Sil",
-                            tint = MaterialTheme.colorScheme.error
-                        )
-                    }
-                    IconButton(
-                        onClick = { viewModel.fetchTefasData() },
-                        enabled = !uiState.isLoading
-                    ) {
-                        if (uiState.isLoading) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                        } else {
+                        val fontipOptions = listOf("YAT", "EMK", "ALL")
+                        fontipOptions.forEach { option ->
+                            val isSelected = uiState.selectedFontip == option
+                            val displayText = when (option) {
+                                "ALL" -> "HEPSİ"
+                                else -> option
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .clickable { viewModel.setFontip(option) }
+                                    .background(
+                                        if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                                        else Color.Transparent,
+                                        RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                            ) {
+                                Text(
+                                    text = displayText,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
+                        Spacer(modifier = Modifier.weight(1f))
+                        IconButton(
+                            onClick = { showSettingsDialog = true }
+                        ) {
                             Icon(
-                                imageVector = Icons.Default.Downloading,
-                                contentDescription = "Güncelle",
+                                imageVector = Icons.Default.DateRange,
+                                contentDescription = "Tarih Ayarları",
                                 tint = MaterialTheme.colorScheme.primary
                             )
+                        }
+                        IconButton(
+                            onClick = { viewModel.deleteAllAssets() },
+                            enabled = !uiState.isLoading
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Sil",
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        }
+                        IconButton(
+                            onClick = { viewModel.fetchTefasData() },
+                            enabled = !uiState.isLoading
+                        ) {
+                            if (uiState.isLoading) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(24.dp),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Default.Downloading,
+                                    contentDescription = "Güncelle",
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            }
                         }
                     }
                 }
             }
-
+            Spacer(modifier = Modifier.height(8.dp))
             // Search Field
             OutlinedTextField(
                 value = uiState.searchQuery,
@@ -293,7 +283,7 @@ fun FonVerileriScreen(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = null,
+                        contentDescription = "ARA",
                         tint = MaterialTheme.colorScheme.primary
                     )
                 },
@@ -311,11 +301,13 @@ fun FonVerileriScreen(
                 singleLine = true,
                 shape = RoundedCornerShape(8.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    focusedTextColor = MaterialTheme.colorScheme.themeOnSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.themeOnSurface,
                     focusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    cursorColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
                 )
             )
 
@@ -324,7 +316,7 @@ fun FonVerileriScreen(
             // Date Info Card - compact
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                colors = cardColors(containerColor = MaterialTheme.colorScheme.themeSmallBox)
             ) {
                 Column(
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
@@ -584,6 +576,7 @@ private fun DateSettingsDialog(
             currentDate = today,
             onDateSelected = { today = it },
             onDismiss = { showTodayPicker = false }
+
         )
     }
     if (showYesterdayPicker) {
@@ -622,7 +615,7 @@ private fun DateFieldWithPicker(
                 Icon(
                     imageVector = Icons.Default.DateRange,
                     contentDescription = "Takvim",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         },
@@ -630,7 +623,9 @@ private fun DateFieldWithPicker(
             focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
             focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.outline
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+            unfocusedContainerColor = MaterialTheme.colorScheme.themeBorder,
+
         )
     )
 }
@@ -670,9 +665,13 @@ private fun FundListItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox),
+            .shadow(elevation = 4.dp, shape = RoundedCornerShape(size = 16.dp))
+            .padding(vertical = 4.dp, horizontal = 8.dp),
+
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             // Header: KOD/Ünvan and FİYAT

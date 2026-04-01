@@ -59,6 +59,9 @@ import androidx.navigation.compose.rememberNavController
 import com.fontakip.presentation.components.HorizontalBarChart
 import com.fontakip.presentation.components.PieChart
 import com.fontakip.presentation.theme.LossRed
+import com.fontakip.presentation.theme.themeBigBox
+import com.fontakip.presentation.theme.themeOnSurface
+import com.fontakip.presentation.theme.themeSurface
 import com.fontakip.presentation.viewmodel.PortfolioAnalyticsUiState
 import com.fontakip.presentation.viewmodel.PortfolioAnalyticsViewModel
 import kotlinx.coroutines.delay
@@ -280,7 +283,7 @@ private fun PortfolioSummaryCard(uiState: PortfolioAnalyticsUiState) {
                 shape = RoundedCornerShape(16.dp)
             ),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.themeBigBox
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -429,7 +432,7 @@ private fun PortfolioSelectorCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.themeSurface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -462,7 +465,7 @@ private fun PortfolioSelectorCard(
                         text = portfolioName,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primaryContainer
+                        color = MaterialTheme.colorScheme.themeOnSurface
                     )
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,

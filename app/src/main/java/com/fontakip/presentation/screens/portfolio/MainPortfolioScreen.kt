@@ -184,7 +184,8 @@ fun MainPortfolioScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowLeft,
                                 contentDescription = "Önceki Portföy",
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(48.dp)
                             )
                         }
 
@@ -208,7 +209,8 @@ fun MainPortfolioScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowRight,
                                 contentDescription = "Sonraki Portföy",
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(48.dp)
                             )
                         }
 
@@ -582,16 +584,8 @@ private fun PortfolioSummarySection(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            // Arkaplan Resmi - Yarı Transparan
-            Image(
-                painter = painterResource(id = R.drawable.finance_background_yellow),
-                contentDescription = "Finans Arkaplan",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
-                contentScale = ContentScale.Crop,
-                alpha = 0.2f
-            )
+  
+
 
             Column(
                 modifier = Modifier
@@ -600,7 +594,7 @@ private fun PortfolioSummarySection(
             ) {
             Text(
                 text = "Portföy Değeri",
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primaryContainer
             )
             Text(
@@ -672,7 +666,7 @@ private fun PortfolioSummarySection(
 
             Text(
                 text = "${String.format(Locale.US, "%.3f", summary.dailyChangePercent)}% / ${tlFormat.format(summary.dailyChangeTL)}",
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
                 color = if (summary.dailyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
             )
@@ -686,7 +680,7 @@ private fun PortfolioSummarySection(
 
                     Text(
                         text = "${String.format(Locale.US, "%.3f", summary.weeklyChangePercent)}% / ${tlFormat.format(summary.weeklyChangeTL)}",
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium,
                         color = if (summary.weeklyChangePercent >= 0) MaterialTheme.colorScheme.themeProfitGreen else MaterialTheme.colorScheme.error
                     )
@@ -978,7 +972,7 @@ private fun AssetCard(
                             ((asset.currentPrice - asset.purchasePrice) / asset.purchasePrice) * 100
                         } else 0.0
                         Text(
-                            text = if (asset.currentPrice > 0) "${if (profitLossPercent >= 0) "+" else ""}${String.format(Locale.US, "%.2f", profitLossPercent)}%" else "VeriYok",
+                            text = if (asset.currentPrice > 0) "${if (profitLossPercent >= 0) "+" else ""}${String.format(Locale.US, "%.2f", profitLossPercent)}%" else "Veri Yok",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.themekututext
@@ -986,7 +980,7 @@ private fun AssetCard(
                         Spacer(modifier = Modifier.height(2.dp))
                         // Sonra TL olarak kar/zarar
                         Text(
-                            text = if (asset.currentPrice > 0) tlFormat.format((asset.units * asset.currentPrice) - (asset.units * asset.purchasePrice)) else "VeriYok",
+                            text = if (asset.currentPrice > 0) tlFormat.format((asset.units * asset.currentPrice) - (asset.units * asset.purchasePrice)) else "Veri Yok",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.themekututext
