@@ -2,11 +2,7 @@ package com.fontakip.presentation.screens.portfolio
 
 
 import com.fontakip.presentation.theme.LocalAppTheme
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -65,7 +61,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -90,7 +85,7 @@ import com.fontakip.presentation.viewmodel.PortfolioViewModel
 import com.fontakip.presentation.navigation.Screen
 import com.fontakip.presentation.screens.portfolio.FundDetailScreen
 import com.fontakip.presentation.screens.portfolio.FundTransactionScreen
-import kotlinx.coroutines.delay
+
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -125,7 +120,6 @@ fun MainPortfolioScreen(
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var isVisible by remember { mutableStateOf(false) }
     var showRenameDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showNewPortfolioDialog by remember { mutableStateOf(false) }
@@ -146,11 +140,7 @@ fun MainPortfolioScreen(
         sharedPrefs.edit().putInt("current_portfolio_index", uiState.currentPortfolioIndex).apply()
     }
 
-    // Animation effect on load
-    LaunchedEffect(Unit) {
-        delay(100)
-        isVisible = true
-    }
+
 
     Scaffold(
         topBar = {
@@ -292,23 +282,18 @@ fun MainPortfolioScreen(
                     }
 
                     // Asset List
-                    items(uiState.assets) { asset ->
-                        AnimatedVisibility(
-                            visible = isVisible,
-                            enter = fadeIn(animationSpec = tween(300)) +
-                                    slideInVertically(
-                                        animationSpec = tween(300),
-                                        initialOffsetY = { it }
-                                    )
-                        ) {
-                            AssetCard(
-                                asset = asset,
-                                totalPortfolioValue = uiState.summary.totalValue,
-                                onInfoClick = { selectedAssetForDetail = asset },
-                                onBuyClick = { selectedFundForTransaction = asset },
-                                onCardClick = { onNavigateToFundDetail(asset) }
-                            )
-                        }
+                    items(
+                        items = uiState.assets,
+                        key = { it.code },
+                        contentType = { "asset_card" }
+                    ) { asset ->
+                        AssetCard(
+                            asset = asset,
+                            totalPortfolioValue = uiState.summary.totalValue,
+                            onInfoClick = { selectedAssetForDetail = asset },
+                            onBuyClick = { selectedFundForTransaction = asset },
+                            onCardClick = { onNavigateToFundDetail(asset) }
+                        )
                     }
 
                 // Bottom spacing
@@ -563,24 +548,19 @@ private fun PortfolioSummarySection(
     summary: PortfolioSummary,
     modifier: Modifier = Modifier
 ) {
-    val tlFormat = DecimalFormat("#,##0.00 TL")
-    val percentFormat = DecimalFormat("+#,##0.###%;-#,##0.###%")
-    val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale("tr", "TR"))
+    val tlFormat = remember { DecimalFormat("#,##0.00 TL") }
+    val percentFormat = remember { DecimalFormat("+#,##0.###%;-#,##0.###%") }
+    val dateFormat = remember { SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale("tr", "TR")) }
 
     Card1(
         modifier = modifier
             .fillMaxWidth()
-            .shadow(
-                elevation = 12.dp,
-                shape = RoundedCornerShape(16.dp),
-                ambientColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
-                spotColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f)
-            )
             .border(
                 width = 2.dp,
                 color = MaterialTheme.colorScheme.themeBorder.copy(alpha = 0.9f),
                 shape = RoundedCornerShape(16.dp)
             ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -708,25 +688,19 @@ private fun AssetCard(
     onCardClick: () -> Unit
 ) {
     val portfolioPercentage = if (totalPortfolioValue > 0) (asset.totalValue / totalPortfolioValue * 100) else 0.0
-    val tlFormat = DecimalFormat("#,##0.00 TL")
-    val percentFormat = DecimalFormat("+#,##0.###%;-#,##0.###%")
+    val tlFormat = remember { DecimalFormat("#,##0.00 TL") }
+    val percentFormat = remember { DecimalFormat("+#,##0.###%;-#,##0.###%") }
 
     Card1(
         modifier = Modifier
             .fillMaxWidth()
-           // .shadow(4.dp, RoundedCornerShape(12.dp))
             .clickable { onCardClick() }
-            .shadow(
-            elevation = 12.dp,
-             shape = RoundedCornerShape(16.dp),
-            ambientColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
-             spotColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f)
-    )
             .border(
-            width = 2.dp,
-            color = MaterialTheme.colorScheme.themeBorder.copy(alpha = 0.9f),
-             shape = RoundedCornerShape(16.dp)
-    ),
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.themeBorder.copy(alpha = 0.9f),
+                shape = RoundedCornerShape(16.dp)
+            ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox)
     ) {
         Column(
