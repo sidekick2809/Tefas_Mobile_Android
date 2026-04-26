@@ -333,7 +333,10 @@ fun AddFundScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { showDatePicker = true },
-                    enabled = false
+                    enabled = false,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black)
                 )
                 
                 Spacer(modifier = Modifier.height(16.dp))

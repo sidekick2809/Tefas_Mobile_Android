@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "https://www.tefas.gov.tr/api/DB/"
+    private const val BASE_URL = "https://www.tefas.gov.tr/api/"
 
     @Provides
     @Singleton

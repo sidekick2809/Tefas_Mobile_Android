@@ -4,6 +4,7 @@ package com.fontakip.presentation.screens.favorites
 import com.fontakip.presentation.theme.LocalAppTheme
 import com.fontakip.presentation.theme.themeProfitGreen
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -61,6 +62,8 @@ import com.fontakip.presentation.viewmodel.FavoriteWithAsset
 import com.fontakip.presentation.viewmodel.FavoritesViewModel
 import com.fontakip.domain.model.Asset
 import com.fontakip.presentation.screens.portfolio.FundDetailScreen
+import com.fontakip.presentation.theme.themeBigBox
+import com.fontakip.presentation.theme.themeBorder
 import com.fontakip.presentation.theme.themeOnSurface
 import com.fontakip.presentation.theme.themeSurface
 import com.fontakip.presentation.viewmodel.PortfolioViewModel
@@ -185,9 +188,14 @@ private fun FavoriteFundItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(elevation = 4.dp, shape = RoundedCornerShape(size = 12.dp))
-            .padding(vertical = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            .padding(9.dp)
+            .border(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.themeBorder.copy(alpha = 0.9f),
+                shape = RoundedCornerShape(16.dp))
+            //.shadow(elevation = 4.dp, shape = RoundedCornerShape(size = 12.dp))
+            .padding(vertical = 9.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(

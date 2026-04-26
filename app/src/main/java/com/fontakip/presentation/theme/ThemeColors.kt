@@ -128,7 +128,7 @@ fun getThemeColors(theme: AppTheme): ThemeColors {
             navBarUnselectedIcon = Color(0xFF707070), // BinanceNavBarInactive
             navBarUnselectedText = Color(0xFF707070), // BinanceNavBarInactive
             // Özel Kutu ve İkon Renkleri
-            bigbox = Color(0xFF363131),
+            bigbox = Color(0xFF000000),
             smallbox = Color(0xFF5E5C5C),
             border = Color(0xFFFBC02D),
             iconics = Color(0xFFF0B90B),

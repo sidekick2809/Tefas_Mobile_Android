@@ -71,6 +71,10 @@ import com.fontakip.presentation.theme.getThemeBackgroundColor
 import com.fontakip.presentation.theme.TextPrimary
 import com.fontakip.presentation.theme.TextSecondary
 import com.fontakip.presentation.theme.White
+import com.fontakip.presentation.theme.themeBackground
+import com.fontakip.presentation.theme.themeBorder
+import com.fontakip.presentation.theme.themeCardBorder
+import com.fontakip.presentation.theme.themeSmallBox
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -194,15 +198,15 @@ fun FundTransactionScreen(
                     if (fund.currentPrice > 0) {
                         Text(
                             text = "Güncel Fiyat: ${String.format(Locale.US, "%.4f", fund.currentPrice)} TL",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     if (fund.purchasePrice > 0 && fund.units > 0) {
                         Text(
                             text = "Ort. Alış: ${String.format(Locale.US, "%.4f", fund.purchasePrice)} TL",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = getPrimaryColor()
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -248,7 +252,7 @@ fun FundTransactionScreen(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
-                    Column(modifier = Modifier.padding(8.dp)) {
+                    Column(modifier = Modifier.padding(16.dp)) {
                         portfolios.forEach { portfolio ->
                             Row(
                                 modifier = Modifier
@@ -257,7 +261,7 @@ fun FundTransactionScreen(
                                         selectedPortfolioId = portfolio.id
                                         expandedPortfolio = false
                                     }
-                                    .padding(12.dp),
+                                    .padding(16.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
@@ -272,28 +276,31 @@ fun FundTransactionScreen(
                 }
             }
             
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             
             // Quantity Input
             OutlinedTextField(
                 value = quantityText,
                 onValueChange = { quantityText = it },
                 label = { Text("Miktar (Adet)",color = MaterialTheme.colorScheme.onSurfaceVariant) },
-                placeholder = { Text("Örn: 10",color = MaterialTheme.colorScheme.onError) },
+                placeholder = { Text("Örn: 10",color = MaterialTheme.colorScheme.onSurfaceVariant) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(16.dp),
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = MaterialTheme.colorScheme.onSurface,
                     unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedBorderColor = getPrimaryColor(),
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                    focusedContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    unfocusedBorderColor = getPrimaryColor(),
+                    disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                    disabledBorderColor = MaterialTheme.colorScheme.outline,
+                    disabledContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
             
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             
             // Price Input
             OutlinedTextField(
@@ -302,19 +309,48 @@ fun FundTransactionScreen(
                 label = { Text("Fiyat (TL)", color = MaterialTheme.colorScheme.onSurfaceVariant) },//Kutu rengi
                 placeholder = { Text("Örn: 105.50", color = MaterialTheme.colorScheme.onSurfaceVariant) },//Kutu bos ornek veri rengi
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(16.dp),
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = PrimaryBlue,
-                    unfocusedTextColor = PrimaryBlue,
-                    focusedBorderColor = getPrimaryColor(), //Secili kutu çerçeve rengi
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                    focusedContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedBorderColor = getPrimaryColor(),
+                    unfocusedBorderColor = getPrimaryColor(),
+                    disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                    disabledBorderColor = MaterialTheme.colorScheme.outline,
+                    disabledContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
             
-            Spacer(modifier = Modifier.height(12.dp))
+            val totalValue = (quantityText.toDoubleOrNull() ?: 0.0) * (priceText.toDoubleOrNull() ?: 0.0)
+            
+            Spacer(modifier = Modifier.height(4.dp))
+            
+            // Total Value Display (Read-only)
+            OutlinedTextField(
+                value = String.format(Locale.US, "%.2f", totalValue),
+                onValueChange = { },
+                label = { Text("İşlem Tutarı (TL)", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                readOnly = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                enabled = false,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedBorderColor = MaterialTheme.colorScheme.themeBorder,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.themeBorder,
+                    disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                    disabledBorderColor = MaterialTheme.colorScheme.themeBorder,
+                    disabledContainerColor = MaterialTheme.colorScheme.themeBackground,
+                    disabledLabelColor = MaterialTheme.colorScheme.themeCardBorder
+                )
+            )
+            
+            Spacer(modifier = Modifier.height(4.dp))
             
             // Date Picker
             OutlinedTextField(
@@ -324,21 +360,22 @@ fun FundTransactionScreen(
                 readOnly = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { showDatePicker = true },
+                    .clickable { showDatePicker = true }
+                    .padding(16.dp),
                 enabled = false,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = MaterialTheme.colorScheme.onSurface,
                     unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                    focusedBorderColor = getPrimaryColor(),
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedBorderColor = MaterialTheme.colorScheme.themeBorder,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.themeBorder,
                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                    disabledBorderColor = MaterialTheme.colorScheme.outline,
-                    disabledContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    disabledBorderColor = MaterialTheme.colorScheme.themeBorder,
+                    disabledContainerColor = MaterialTheme.colorScheme.themeBackground,
+                    disabledLabelColor = MaterialTheme.colorScheme.themeCardBorder
                 )
             )
             
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(6.dp))
             
             // Buy/Sell Buttons
             Row(
@@ -365,7 +402,7 @@ fun FundTransactionScreen(
                         
                         onSaveBuy(quantity, price, purchaseDate, selectedPortfolioId)
                         Toast.makeText(context, "Alım işlemi yapıldı", Toast.LENGTH_SHORT).show()
-                        onBackClick()
+                        quantityText = ""
                     },
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(containerColor = ProfitGreen)
@@ -398,7 +435,7 @@ fun FundTransactionScreen(
                         
                         onSaveSell(quantity, price, purchaseDate, selectedPortfolioId)
                         Toast.makeText(context, "Satım işlemi yapıldı", Toast.LENGTH_SHORT).show()
-                        onBackClick()
+                        quantityText = ""
                     },
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(containerColor = LossRed)

@@ -2,6 +2,7 @@ package com.fontakip.data.repository
 
 import com.fontakip.data.local.dao.AssetDao
 import com.fontakip.data.remote.TefasApiService
+import com.fontakip.data.remote.model.FonGnlBlgSiraliGetirRequest
 import com.fontakip.data.remote.model.FundHistoryItem
 import com.fontakip.data.remote.model.TefasFund
 import com.fontakip.domain.model.Asset
@@ -118,15 +119,12 @@ class AssetRepositoryImpl @Inject constructor(
     ): List<FundHistoryItem> {
         return try {
             val response = tefasApiService.getFundHistory(
-                fontip = "",
-                sfontur = "",
-                fonkod = fundCode,
-                fongrup = "",
-                startDate = startDate,
-                endDate = endDate,
-                fontkod = "",
-                fonunvantip = "",
-                kurucukod = ""
+                FonGnlBlgSiraliGetirRequest(
+                    fonTipi = "",
+                    fonKodu = fundCode,
+                    basTarih = startDate,
+                    bitTarih = endDate
+                )
             )
             // Map TefasFund to FundHistoryItem
             response.data?.map { fund ->

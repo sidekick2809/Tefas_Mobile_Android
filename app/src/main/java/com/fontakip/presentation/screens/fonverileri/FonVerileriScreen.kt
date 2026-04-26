@@ -301,13 +301,14 @@ fun FonVerileriScreen(
                 singleLine = true,
                 shape = RoundedCornerShape(8.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = MaterialTheme.colorScheme.themeOnSurface,
-                    unfocusedTextColor = MaterialTheme.colorScheme.themeOnSurface,
-                    focusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedBorderColor = MaterialTheme.colorScheme.themeBorder,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.themeBorder,
+                    disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                    disabledBorderColor = MaterialTheme.colorScheme.outline,
+                    disabledContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
 
@@ -319,7 +320,7 @@ fun FonVerileriScreen(
                 colors = cardColors(containerColor = MaterialTheme.colorScheme.themeSmallBox)
             ) {
                 Column(
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -665,11 +666,16 @@ private fun FundListItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(elevation = 4.dp, shape = RoundedCornerShape(size = 16.dp))
-            .padding(vertical = 4.dp, horizontal = 8.dp),
+            .padding(9.dp)
+            //.shadow(elevation = 4.dp, shape = RoundedCornerShape(size = 16.dp))
+            .border(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.themeBorder.copy(alpha = 0.9f),
+                shape = RoundedCornerShape(16.dp))
+            .padding(vertical = 9.dp, horizontal = 8.dp),
 
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
 
     ) {

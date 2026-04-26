@@ -11,6 +11,8 @@ import com.fontakip.domain.model.Portfolio
 import com.fontakip.domain.repository.AssetRepository
 import com.fontakip.domain.repository.FavoriteRepository
 import com.fontakip.domain.repository.PortfolioRepository
+import com.fontakip.data.remote.model.FonGetiriBazliBilgiGetirRequest
+import com.fontakip.data.remote.model.FonGnlBlgSiraliGetirRequest
 import com.fontakip.presentation.screens.portfolio.TransactionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -85,6 +87,17 @@ class FonVerileriViewModel @Inject constructor(
      * All dates are formatted using the "dd.MM.yyyy" pattern with a Turkish locale ("tr-TR")
      * to ensure compatibility with the TEFAS API requirements.
      */
+    private fun formatTefasDate(dateStr: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("dd.MM.yyyy", Locale("tr", "TR"))
+            val outputFormat = SimpleDateFormat("yyyyMMdd", Locale("tr", "TR"))
+            val date = inputFormat.parse(dateStr)
+            if (date != null) outputFormat.format(date) else dateStr
+        } catch (e: Exception) {
+            dateStr
+        }
+    }
+
     private fun initializeDates() {
         val today = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("tr", "TR"))
@@ -219,56 +232,45 @@ class FonVerileriViewModel @Inject constructor(
                     // Delete existing TEFAS data only (not user assets)
                     assetRepository.deleteAssetsByFontip(fontip)
 
+                    val apiToday = formatTefasDate(state.todayDate)
+                    val apiYesterday = formatTefasDate(state.yesterdayDate)
+                    val apiSevenDaysAgo = formatTefasDate(state.sevenDaysAgoDate)
+
                     // Fetch today's data
                     val todayResponse = tefasApiService.getFundHistory(
-                        fontip = fontip,
-                        startDate = state.todayDate,
-                        endDate = state.todayDate
+                        FonGnlBlgSiraliGetirRequest(
+                            fonTipi = fontip,
+                            basTarih = apiToday,
+                            bitTarih = apiToday
+                        )
                     )
 
                     // Fetch yesterday's data
                     val yesterdayResponse = tefasApiService.getFundHistory(
-                        fontip = fontip,
-                        startDate = state.yesterdayDate,
-                        endDate = state.yesterdayDate
+                        FonGnlBlgSiraliGetirRequest(
+                            fonTipi = fontip,
+                            basTarih = apiYesterday,
+                            bitTarih = apiYesterday
+                        )
                     )
 
                     // Fetch 7 days ago data
                     val sevenDaysAgoResponse = tefasApiService.getFundHistory(
-                        fontip = fontip,
-                        startDate = state.sevenDaysAgoDate,
-                        endDate = state.sevenDaysAgoDate
+                        FonGnlBlgSiraliGetirRequest(
+                            fonTipi = fontip,
+                            basTarih = apiSevenDaysAgo,
+                            bitTarih = apiSevenDaysAgo
+                        )
                     )
 
                     // Fetch returns data
                     val returnsResponse = tefasApiService.getFundReturns(
-                        fontip = fontip,
-                        startDate = state.todayDate,
-                        endDate = state.todayDate
+                        FonGetiriBazliBilgiGetirRequest(
+                            fonTipi = fontip,
+                            basTarih = apiToday,
+                            bitTarih = apiToday
+                        )
                     )
-
-                    // Fetch TEFAS status (open/closed)
-                    val statusOpenResponse = tefasApiService.getFundStatus(
-                        fontip = fontip,
-                        startDate = "01.01.2020",
-                        endDate = "31.12.2030",
-                        islemdurum = "1"
-                    )
-                    val statusClosedResponse = tefasApiService.getFundStatus(
-                        fontip = fontip,
-                        startDate = "01.01.2020",
-                        endDate = "31.12.2030",
-                        islemdurum = "0"
-                    )
-
-                    // Create status map
-                    val statusMap = mutableMapOf<String, String>()
-                    (statusOpenResponse.data ?: emptyList()).forEach { fund ->
-                        statusMap[fund.code] = "EVET"
-                    }
-                    (statusClosedResponse.data ?: emptyList()).forEach { fund ->
-                        statusMap[fund.code] = "HAYIR"
-                    }
 
                     // Create price maps
                     val todayPrices = (todayResponse.data ?: emptyList()).associateBy { it.code }
@@ -352,7 +354,7 @@ class FonVerileriViewModel @Inject constructor(
                         fundType = todayFund.fundType,
                         turC = turC,
                         company = company,
-                        tefasStatus = statusMap[code] ?: "Bilinmiyor",
+                        tefasStatus = if (returnsFund?.tefasDurum == true) "EVET" else "Pasif",
                         priceYesterday = priceYesterday,
                         priceSevenDaysAgo = priceSevenDaysAgo,
                         isFavorite = favoriteCodes.contains(code) // Preserve favorite status
