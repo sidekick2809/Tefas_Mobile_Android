@@ -1,4 +1,6 @@
 
+## Güncelleme
+- 26.04.2026 itibari ile TEFAS yeni API'sini kullanıma sundu. Uygulama yeni API ile güncellenmiştir.
 
 # Tefas Mobile Android
 
@@ -85,6 +87,9 @@ app/src/main/java/com/fontakip/
 ## API
 
 Uygulama [TEFAS](https://www.tefas.gov.tr/) (Türkiye Elektronik Fon Alım Satım Platformu) API'sini kullanmaktadır.
+
+## APK Link
+![APK Link](https://github.com/sidekick2809/Tefas_Mobile_Android/blob/main/apk/app-debug.apk)
 
 ## Lisans
 
