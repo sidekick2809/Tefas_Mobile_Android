@@ -127,6 +127,7 @@ fun MainPortfolioScreen(
     var selectedAssetForDetail by remember { mutableStateOf<Asset?>(null) }
     var selectedFundForTransaction by remember { mutableStateOf<Asset?>(null) }
     var showThemeDialog by remember { mutableStateOf(false) }
+    var showAllTransactionsDialog by remember { mutableStateOf(false) }
     
     // Activity context for theme changes
     val activityContext = androidx.compose.ui.platform.LocalContext.current
@@ -277,6 +278,7 @@ fun MainPortfolioScreen(
                 item {
                         PortfolioSummarySection(
                             summary = uiState.summary,
+                            onInfoClick = { showAllTransactionsDialog = true },
                             modifier = Modifier.padding(vertical = 16.dp)
                         )
                     }
@@ -521,6 +523,151 @@ fun MainPortfolioScreen(
                 )
             }
         }
+
+        // All Transactions Dialog
+        if (showAllTransactionsDialog) {
+            val selectedPortfolio = uiState.portfolios.getOrNull(uiState.currentPortfolioIndex)
+            val currentPortfolioName = selectedPortfolio?.name ?: ""
+            
+            Dialog(
+                onDismissRequest = { showAllTransactionsDialog = false },
+                properties = androidx.compose.ui.window.DialogProperties(
+                    usePlatformDefaultWidth = false,
+                    decorFitsSystemWindows = false
+                )
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                    ) {
+                        // Header
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "$currentPortfolioName İşlemleri",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            IconButton(onClick = { showAllTransactionsDialog = false }) {
+                                Icon(
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = "Kapat",
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        if (uiState.transactions.isEmpty()) {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "Bu portföyde henüz işlem bulunmuyor.",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        } else {
+                            val tlFormat = DecimalFormat("#,##0.00 TL")
+                            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("tr", "TR"))
+
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                items(uiState.transactions.sortedByDescending { it.date }) { transaction ->
+                                    val isBuy = transaction.transactionType == "BUY"
+                                    Card1(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .border(
+                                                width = 1.dp,
+                                                color = MaterialTheme.colorScheme.themeBorder.copy(alpha = 0.5f),
+                                                shape = RoundedCornerShape(12.dp)
+                                            ),
+                                        shape = RoundedCornerShape(12.dp),
+                                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.themeBigBox)
+                                    ) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(12.dp),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Column(modifier = Modifier.weight(1f)) {
+                                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                                    Text(
+                                                        text = if (isBuy) "AL" else "SAT",
+                                                        style = MaterialTheme.typography.labelMedium,
+                                                        color = Color.White,
+                                                        modifier = Modifier
+                                                            .background(
+                                                                color = if (isBuy) ProfitGreen else LossRed,
+                                                                shape = RoundedCornerShape(4.dp)
+                                                            )
+                                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                                    )
+                                                    Spacer(modifier = Modifier.width(8.dp))
+                                                    Text(
+                                                        text = transaction.fundCode,
+                                                        style = MaterialTheme.typography.titleMedium,
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = MaterialTheme.colorScheme.primaryContainer
+                                                    )
+                                                    Spacer(modifier = Modifier.width(8.dp))
+                                                    Text(
+                                                        text = dateFormat.format(Date(transaction.date)),
+                                                        style = MaterialTheme.typography.bodySmall,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                    )
+                                                }
+                                                Spacer(modifier = Modifier.height(4.dp))
+                                                Text(
+                                                    text = transaction.fundName,
+                                                    style = MaterialTheme.typography.bodySmall,
+                                                    color = MaterialTheme.colorScheme.primaryContainer,
+                                                    maxLines = 1,
+                                                    overflow = TextOverflow.Ellipsis
+                                                )
+                                                Spacer(modifier = Modifier.height(2.dp))
+                                                Text(
+                                                    text = "${String.format(Locale.US, "%.0f", transaction.quantity)} Adet - ${tlFormat.format(transaction.price)}",
+                                                    style = MaterialTheme.typography.bodyMedium,
+                                                    fontWeight = FontWeight.Medium,
+                                                    color = MaterialTheme.colorScheme.onBackground
+                                                )
+                                            }
+                                            IconButton(
+                                                onClick = { viewModel.deleteTransaction(transaction) }
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Delete,
+                                                    contentDescription = "İşlemi Sil",
+                                                    tint = LossRed
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     } // End of Scaffold
 
     // Fund Transaction Screen (AL/SAT) - Full Screen (Scaffold dışında)
@@ -546,6 +693,7 @@ fun MainPortfolioScreen(
 @Composable
 private fun PortfolioSummarySection(
     summary: PortfolioSummary,
+    onInfoClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val tlFormat = remember { DecimalFormat("#,##0.00 TL") }
@@ -572,18 +720,33 @@ private fun PortfolioSummarySection(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-            Text(
-                text = "Portföy Değeri",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primaryContainer
-            )
-            Text(
-                text = tlFormat.format(summary.totalValue),
-                style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text(
+                        text = "Portföy Değeri",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primaryContainer
+                    )
+                    Text(
+                        text = tlFormat.format(summary.totalValue),
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    )
+                }
+                IconButton(onClick = onInfoClick) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "Tüm İşlemler",
+                        tint = MaterialTheme.colorScheme.themeIconics
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 

@@ -48,4 +48,15 @@ object NetworkModule {
     fun provideTefasApiService(retrofit: Retrofit): TefasApiService {
         return retrofit.create(TefasApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideFvtApiService(okHttpClient: okhttp3.OkHttpClient): com.fontakip.data.remote.FvtApiService {
+        return retrofit2.Retrofit.Builder()
+            .baseUrl("https://fvt.com.tr/api/")
+            .client(okHttpClient)
+            .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+            .build()
+            .create(com.fontakip.data.remote.FvtApiService::class.java)
+    }
 }

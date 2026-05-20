@@ -1,8 +1,11 @@
 package com.fontakip.data.repository
 
 import com.fontakip.data.local.dao.AssetDao
+import com.fontakip.data.remote.FvtApiService
 import com.fontakip.data.remote.TefasApiService
+import com.fontakip.data.remote.model.FonFiyatBilgiGetirRequest
 import com.fontakip.data.remote.model.FonGnlBlgSiraliGetirRequest
+import com.fontakip.data.remote.model.FundDistributionResponse
 import com.fontakip.data.remote.model.FundHistoryItem
 import com.fontakip.data.remote.model.TefasFund
 import com.fontakip.domain.model.Asset
@@ -18,7 +21,8 @@ import javax.inject.Singleton
 @Singleton
 class AssetRepositoryImpl @Inject constructor(
     private val assetDao: AssetDao,
-    private val tefasApiService: TefasApiService
+    private val tefasApiService: TefasApiService,
+    private val fvtApiService: FvtApiService
 ) : AssetRepository {
 
     private val _assetUpdateEvent = MutableSharedFlow<String>()
@@ -137,6 +141,38 @@ class AssetRepositoryImpl @Inject constructor(
             } ?: emptyList()
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+    
+    override suspend fun getFundPriceHistory(
+        fundCode: String,
+        period: Int
+    ): List<FundHistoryItem> {
+        return try {
+            val response = tefasApiService.getFundPriceHistory(
+                FonFiyatBilgiGetirRequest(
+                    fonKodu = fundCode,
+                    periyod = period
+                )
+            )
+            response.data?.map { fund ->
+                FundHistoryItem(
+                    date = fund.date,
+                    price = fund.price,
+                    returnPercent = 0.0, // This API doesn't seem to return daily return
+                    fundCode = fund.code
+                )
+            } ?: emptyList()
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    override suspend fun getFundDistribution(fundCode: String): FundDistributionResponse? {
+        return try {
+            fvtApiService.getFundDistribution(fundCode)
+        } catch (e: Exception) {
+            null
         }
     }
 }

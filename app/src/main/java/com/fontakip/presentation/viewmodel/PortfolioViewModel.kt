@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fontakip.data.local.dao.TransactionDao
 import com.fontakip.data.local.entities.TransactionEntity
+import com.fontakip.data.remote.model.FundHistoryItem
 import com.fontakip.domain.model.Asset
 import com.fontakip.domain.model.AssetPerformance
 import com.fontakip.domain.model.AssetType
@@ -424,6 +425,13 @@ class PortfolioViewModel @Inject constructor(
         }
     }
 
+    override fun getFundPriceHistory(fundCode: String, period: Int, onResult: (List<FundHistoryItem>) -> Unit) {
+        viewModelScope.launch {
+            val history = assetRepository.getFundPriceHistory(fundCode, period)
+            onResult(history)
+        }
+    }
+
     // ===== ORTALAMA ALIŞ FİYATI HESAPLAMA (JavaScript sample_transactions.js mantığı) =====
     // Bu fonksiyon, verilen fon koduna göre tüm işlemleri kronolojik sırayla işleyerek
     // ortalama alış fiyatını (ortFiyat) hesaplar
@@ -655,5 +663,15 @@ class PortfolioViewModel @Inject constructor(
         val profitPercent = if (totalCost > 0) (realizedProfit / totalCost) * 100 else 0.0
 
         return Triple(finalAveragePrice, realizedProfit, profitPercent)
+    }
+
+    override fun getFundDistribution(
+        fundCode: String,
+        onResult: (com.fontakip.data.remote.model.FundDistributionResponse?) -> Unit
+    ) {
+        viewModelScope.launch {
+            val result = assetRepository.getFundDistribution(fundCode)
+            onResult(result)
+        }
     }
 }

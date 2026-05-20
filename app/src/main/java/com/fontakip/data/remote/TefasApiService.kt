@@ -1,5 +1,6 @@
 package com.fontakip.data.remote
 
+import com.fontakip.data.remote.model.FonFiyatBilgiGetirRequest
 import com.fontakip.data.remote.model.FonGetiriBazliBilgiGetirRequest
 import com.fontakip.data.remote.model.FonGnlBlgSiraliGetirRequest
 import com.fontakip.data.remote.model.TefasResponse
@@ -29,5 +30,10 @@ interface TefasApiService {
     @POST("funds/fonGetiriBazliBilgiGetir")
     suspend fun getFundStatus(
         @Body request: FonGetiriBazliBilgiGetirRequest
+    ): TefasResponse
+
+    @POST("funds/fonFiyatBilgiGetir")
+    suspend fun getFundPriceHistory(
+        @Body request: FonFiyatBilgiGetirRequest
     ): TefasResponse
 }

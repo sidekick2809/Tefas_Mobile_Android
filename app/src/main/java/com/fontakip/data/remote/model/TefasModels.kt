@@ -39,6 +39,12 @@ data class FonGetiriBazliBilgiGetirRequest(
     val calismaTipi: Int = 2,
     val getiriOrani: String = "1"
 )
+
+data class FonFiyatBilgiGetirRequest(
+    val fonKodu: String,
+    val dil: String = "TR",
+    val periyod: Int = 12
+)
 // Response wrapper
 data class TefasResponse(
     @SerializedName("resultList", alternate = ["data", "Data", "result"])

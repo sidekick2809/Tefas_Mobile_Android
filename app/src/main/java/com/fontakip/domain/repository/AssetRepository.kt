@@ -42,4 +42,21 @@ interface AssetRepository {
         startDate: String,
         endDate: String
     ): List<FundHistoryItem>
+
+    /**
+     * Get fund price history using the new API with period
+     * @param fundCode The TEFAS fund code
+     * @param period Period in months (default 12 for 1 year)
+     */
+    suspend fun getFundPriceHistory(
+        fundCode: String,
+        period: Int = 12
+    ): List<FundHistoryItem>
+
+    /**
+     * Get fund distribution details including stock codes and weights
+     */
+    suspend fun getFundDistribution(
+        fundCode: String
+    ): com.fontakip.data.remote.model.FundDistributionResponse?
 }
